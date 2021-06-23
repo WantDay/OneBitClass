@@ -3,6 +3,8 @@ package bitClass;
 import member.ClassMember;
 import member.ClassMemberDAO;
 import member.MemberManager;
+import onebitclass.ClassDAO;
+import onebitclass.ClassManager;
 
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
@@ -58,6 +60,7 @@ public class HomeScreen {
 	static void memHome() {
 		manager = new MemberManager(ClassMemberDAO.getInstance());
 		ClassMember member = manager.loginInfo(mid);
+		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
 		InputReader ir = new InputReader();
 
 		System.out.println();
@@ -83,7 +86,7 @@ public class HomeScreen {
 			System.out.println("신청");
 			break;
 		case 4:
-			System.out.println("등록");
+			classManager.showClass(num);
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
