@@ -31,9 +31,9 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-			System.out.println("ID를 다시 한 번 입력해주세요.");
-			System.out.print(": ");
-			String mid = sc.nextLine();
+//			System.out.println("ID를 다시 한 번 입력해주세요.");
+//			System.out.print(": ");
+//			String mid = sc.nextLine();
 			List<BitClass> list = dao.getInfo(conn, mno);
 
 			for (BitClass bitClass : list) {
@@ -42,7 +42,7 @@ public class ClassManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		// '등록한 강좌' 메뉴
 		System.out.println();
 		System.out.println("1. 강좌 개설");
@@ -116,7 +116,29 @@ public class ClassManager {
 
 	// 수강료 할인
 	private void discountFee() {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
+			System.out.println("원하는 강좌의 수강료 할인을 시작합니다.");
+			System.out.println("강좌 제목을 입력해주세요.");
+			String title = sc.nextLine();
+			System.out.println("할인율을 입력해주세요. (예:10)");
+			int discount = Integer.parseInt(sc.nextLine());
+
+			bitClass = new BitClass(0, title, discount);
+
+			int result = dao.editInfo(conn, bitClass);
+
+			if (result > 0) {
+				System.out.println("입력 되었습니다.");
+			} else {
+				System.out.println("입력 실패!!!");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e);
+			e.printStackTrace();
+		}
 	}
 
 	// 지난 강좌 보기

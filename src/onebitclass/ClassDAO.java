@@ -70,10 +70,10 @@ public class ClassDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			String sql = "update bitclass set discount = ? where cno=?";
+			String sql = "update bitclass set discount = ? where title=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bitClass.getDiscount());
-			pstmt.setInt(2, bitClass.getCno());
+			pstmt.setString(2, bitClass.getTitle());
 
 			result = pstmt.executeUpdate();
 

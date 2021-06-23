@@ -132,6 +132,12 @@ public class BitClass {
 		this.numPeople = numPeople;
 	}
 
+	public BitClass(int cno, String title, int discount) {
+		this.cno = cno;
+		this.title = title;
+		this.discount = discount;
+	}
+
 	@Override
 	public String toString() {
 		return "BitClass [cno=" + cno
