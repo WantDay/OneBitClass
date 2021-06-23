@@ -6,7 +6,8 @@ import onebitclass.ClassDAO;
 import onebitclass.ClassManager;
 
 public class membermain {
-
+	static ClassMember member;
+	
 	public static void main(String[] args) {
 		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
 		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
@@ -19,6 +20,7 @@ public class membermain {
 //			// 정보 수정
 //			manager.editId();
 			// 정보 보기
+			
 //			ClassMember member = manager.showMyInfo();
 			// 포인트 확인
 //			manager.showPoint();
@@ -26,6 +28,8 @@ public class membermain {
 //			manager.addPoint();
 //			// 포인트 인출
 			//classManager.createClass();
+			
+			
 			
 			
 		} catch (ClassNotFoundException e) {

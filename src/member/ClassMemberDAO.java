@@ -153,6 +153,41 @@ public class ClassMemberDAO {
 		return list ;
 	}
 	
+	// 회원 탈퇴 기능
+	int deleteId(Connection conn, ClassMember member) {
+
+		int result = 0;
+
+		PreparedStatement pstmt = null;
+		
+		try {
+			String sql = "delete from classmember where mid = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, member.getMid());
+
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
+	
 	// 2. 포인트 수정
 
 		int editPoint(Connection conn, ClassMember member) {

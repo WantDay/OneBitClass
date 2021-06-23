@@ -25,7 +25,7 @@ public class MemberManager {
 	// 회원 가입
 	// 사용자에게 Scanner 클래스로 입력 받아 ->
 	// dao ClassMemberDAO 메소드로 저장
-	void createId() {
+	public void createId() {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
@@ -130,9 +130,7 @@ public class MemberManager {
 		}
 
 		return member;
-	}
 
-	// 포인트 관리
 	// 현재 보유중인 포인트 보기
 	void showPoint() {
 		System.out.println("현재 보유중인 포인트는 " + member.getMpoint() + " 입니다.");
@@ -176,4 +174,5 @@ public class MemberManager {
 			e.printStackTrace();
 		}
 	}
+
 }
