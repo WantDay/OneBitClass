@@ -2,16 +2,13 @@ package bitClass;
 
 import java.util.Scanner;
 
-<<<<<<< Updated upstream
-=======
 import onebitclass.ClassDAO;
 import onebitclass.ClassManager;
 
->>>>>>> Stashed changes
 public class ClassInfo {
 	public void classMenu() {
 		// Connection conn = null;
-		ClassManager manager = new ClassManager(ClassDao.getInstance());
+		ClassManager manager = new ClassManager(ClassDAO.getInstance());
 		Scanner sc = new Scanner(System.in);
 
 		try {

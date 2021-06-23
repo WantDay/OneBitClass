@@ -2,11 +2,6 @@ package bitClass;
 
 import java.util.Scanner;
 
-<<<<<<< Updated upstream
-public class HomeScreen {
-	static ClassInfo classInfo = new ClassInfo();
-	static boolean isLogin=false;
-=======
 import member.ClassMember;
 import member.ClassMemberDAO;
 import member.MemberManager;
@@ -19,10 +14,8 @@ public class HomeScreen {
 	static ClassMember member;
 
 	static String mid;
->>>>>>> Stashed changes
 
 	public static void main(String[] args) {
-		
 		while (true) {
 			if (isLogin) {
 				memHome();
@@ -56,6 +49,7 @@ public class HomeScreen {
 			break;
 		case 2:
 			isLogin = login.userLogin();
+			mid = login.mid;
 			break;
 		case 3:
 			// join.userJoin();
@@ -70,14 +64,10 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
-<<<<<<< Updated upstream
-		Member member = new Member();
-=======
 		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
 		member = manager.loginInfo(mid);
 		ClassManager manager2 = new ClassManager(ClassDAO.getInstance());
 		
->>>>>>> Stashed changes
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -97,7 +87,7 @@ public class HomeScreen {
 			classInfo.classMenu();
 			break;
 		case 2:
-			member.showMyInfo();
+			manager.showMyInfo(mid);
 			break;
 		case 3:
 			System.out.println("신청");
