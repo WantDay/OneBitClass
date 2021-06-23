@@ -64,5 +64,24 @@ public class ClassManager {
 		}
 		
 	}
+	// 내가 개설한 강좌 정보 보기 
+	public void showClass(int mno) { 
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
+			System.out.println("ID를 다시 한 번 입력해주세요.");
+			String mid = sc.nextLine();
+			List<BitClass> list = dao.getInfo(conn, mno);
+			
+			for(BitClass bitClass : list) {
+				System.out.println(bitClass);
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+	}
 
 }
