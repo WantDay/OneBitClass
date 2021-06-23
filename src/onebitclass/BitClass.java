@@ -1,6 +1,6 @@
 package onebitclass;
 
-import java.util.Date;
+//import java.util.Date;
 
 public class BitClass { 	
 				// 강좌 데이터를 넣어서 개설 및 관리
@@ -9,12 +9,12 @@ public class BitClass {
 	 private int mno; // 강사 번호
 	 private String title; // 강좌명
 	 private String cloc; // 강좌 지역
-	 private String startdate; // 강좌 시작일
-	 private String enddate; // 강좌 종료일
+	 private String startDate; // 강좌 시작일
+	 private String endDate; // 강좌 종료일
 	 private int fee; // 수강료
 	 private int discount; // 할인율
 	 private float rate; // 평점
-	 private int numpeople; // 최대 수강 인원
+	 private int numPeople; // 최대 수강 인원
 	 private int enroll; // 현재 수강인원
 	
 	 public int getCno() {
@@ -41,17 +41,17 @@ public class BitClass {
 	public void setCloc(String cloc) {
 		this.cloc = cloc;
 	}
-	public String getStartdate() {
-		return startdate;
+	public String getStartDate() {
+		return startDate;
 	}
-	public void setStartdate(String startdate) {
-		this.startdate = startdate;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
-	public String getEnddate() {
-		return enddate;
+	public String getEndDate() {
+		return endDate;
 	}
-	public void setEnddate(String enddate) {
-		this.enddate = enddate;
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	public int getFee() {
 		return fee;
@@ -71,27 +71,11 @@ public class BitClass {
 	public void setRate(float rate) {
 		this.rate = rate;
 	}
-	public int getNumpeople() {
-		return numpeople;
+	public int getNumPeople() {
+		return numPeople;
 	}
-	public void setNumpeople(int number) {
-		this.numpeople = number;
-	}
-
-	public BitClass(int cno, int mno, String title, String cloc, String startdate, String enddate, int fee,
-			int discount, float rate, int numpeople, int enroll) {
-		super();
-		this.cno = cno;
-		this.mno = mno;
-		this.title = title;
-		this.cloc = cloc;
-		this.startdate = startdate;
-		this.enddate = enddate;
-		this.fee = fee;
-		this.discount = discount;
-		this.rate = rate;
-		this.numpeople = numpeople;
-		this.enroll = enroll;
+	public void setNumPeople(int number) {
+		this.numPeople = number;
 	}
 	public int getEnroll() {
 		return enroll;
@@ -100,24 +84,36 @@ public class BitClass {
 		this.enroll = enroll;
 	}
 	
-	public BitClass(int mno, String title, String cloc, String startdate, 
-						String enddate, int fee, int numpeople) {
+	public BitClass(int cno, int mno, String title, String cloc, String startDate, String endDate, int fee,
+			int discount, float rate, int numPeople, int enroll) {
+		super();
+		this.cno = cno;
 		this.mno = mno;
 		this.title = title;
 		this.cloc = cloc;
-		this.startdate = startdate;
-		this.enddate = enddate;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.fee = fee;
-		this.numpeople = numpeople;
+		this.discount = discount;
+		this.rate = rate;
+		this.numPeople = numPeople;
+		this.enroll = enroll;
+	}
+
+	public BitClass(int mno, String title, String cloc, String startDate, 
+						String endDate, int fee, int numPeople) {
+		this.mno = mno;
+		this.title = title;
+		this.cloc = cloc;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.fee = fee;
+		this.numPeople = numPeople;
 	}
 	@Override
 	public String toString() {
-		return "BitClass [cno=" + cno + ", mno=" + mno + ", title=" + title + ", cloc=" + cloc + ", startdate="
-				+ startdate + ", enddate=" + enddate + ", fee=" + fee + ", discount=" + discount + ", rate=" + rate
-				+ ", numpeople=" + numpeople + ", enroll=" + enroll + "]";
+		return "BitClass [cno=" + cno + ", mno=" + mno + ", title=" + title + ", cloc=" + cloc + ", startDate="
+				+ startDate + ", endDate=" + endDate + ", fee=" + fee + ", discount=" + discount + ", rate=" + rate
+				+ ", numPeople=" + numPeople + ", enroll=" + enroll + "]";
 	}
-	
-	
-
-
 }
