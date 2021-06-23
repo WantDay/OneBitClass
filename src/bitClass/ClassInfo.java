@@ -2,17 +2,13 @@ package bitClass;
 
 import java.util.Scanner;
 
-public class ClassMain {
-	public static void main(String[] args) {
-		classInfo();
-	}
-
-	static void classInfo() {
+public class ClassInfo {
+	public void classMenu() {
 		// Connection conn = null;
 		ClassManager manager = new ClassManager(ClassDao.getInstance());
 		Scanner sc = new Scanner(System.in);
+		
 		try {
-			// 1. 드라이버 로드
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
 			while (true) {
@@ -54,7 +50,7 @@ public class ClassMain {
 
 	}
 	
-	static void showDiscountClasses() {
+	void showDiscountClasses() {
 		// dao로 강좌 리스트 받아오기
 		// 할인 중인 강좌를 할인 순으로 정렬
 
@@ -67,7 +63,7 @@ public class ClassMain {
 	}
 
 	// 마감임박 강좌 보기
-	static void showDeadlineClasses() {
+	void showDeadlineClasses() {
 		// dao로 강좌 리스트 받아오기
 		// 마감 임박인 강좌를 마감이 남은 일자가 작은 순으로 정렬
 
@@ -80,7 +76,7 @@ public class ClassMain {
 	}
 
 	// 내 관심지역 강좌 보기
-	static void showLocalClasses() {
+	void showLocalClasses() {
 		// dao로 강좌 리스트 받아오기
 		// 자신의 관심지역과 같은 지역을 가나다 순으로 정렬
 
@@ -92,7 +88,7 @@ public class ClassMain {
 		// selectClass(classes);
 	}
 
-	static // // 분류 보기
+	// 분류 보기
 	void showClassification() {
 		// // dao로 분류 정보 받기
 		// ArrayList<String> classification = new ArrayList<String>();
