@@ -25,7 +25,7 @@ public class MemberManager {
 	// 회원 가입
 	// 사용자에게 Scanner 클래스로 입력 받아 -> 
 	// dao ClassMemberDAO 메소드로 저장
-	void createId() {
+	public void createId() {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 		
@@ -134,6 +134,18 @@ public class MemberManager {
 
 		return member;
 	} 
+	// 회원 탈퇴
+	public void deleteId(String mid) {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			int result = dao.deleteId(conn, member);
+			System.out.println("회원 정보가 삭제되었습니다.");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// 포인트 관리 
 	// 현재 보유중인 포인트 보기
@@ -182,4 +194,5 @@ public class MemberManager {
 			e.printStackTrace();
 		}
 	}
+
 }
