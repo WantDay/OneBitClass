@@ -1,15 +1,11 @@
 package onebitclass;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
-import member.ClassMember;
 
 public class ClassDAO {
 
@@ -46,7 +42,6 @@ public class ClassDAO {
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (pstmt != null) {
@@ -70,10 +65,10 @@ public class ClassDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			String sql = "update bitclass set discount = ? where cno=?";
+			String sql = "update bitclass set discount = ? where title=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bitClass.getDiscount());
-			pstmt.setInt(2, bitClass.getCno());
+			pstmt.setString(2, bitClass.getTitle());
 
 			result = pstmt.executeUpdate();
 
@@ -116,7 +111,6 @@ public class ClassDAO {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		} finally {
@@ -124,7 +118,6 @@ public class ClassDAO {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -133,11 +126,9 @@ public class ClassDAO {
 				try {
 					pstmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
 		}
 
 		return list;

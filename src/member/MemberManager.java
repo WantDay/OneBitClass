@@ -19,7 +19,6 @@ public class MemberManager {
 	public MemberManager(ClassMemberDAO dao) {
 		this.dao = dao;
 		sc = new Scanner(System.in);
-
 	}
 
 	// 회원 가입
@@ -52,7 +51,6 @@ public class MemberManager {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -85,34 +83,9 @@ public class MemberManager {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	// 회원 정보 확인
-	public ClassMember showMyInfo(String mid) {
-
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-
-			System.out.println("회원 정보를 출력합니다.");
-
-			List<ClassMember> list = dao.getInfo(conn, mid);
-
-			member = list.get(0);
-			System.out.println("이름 : " + member.getMname());
-			System.out.println("생년월일 : " + member.getMdate());
-			System.out.println("관심 지역 : " + member.getMloc());
-			System.out.println("포인트 : " + member.getMpoint());
-			System.out.println("------------------------");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return member;
 	}
 
 	// 로그인 회원 관리
@@ -125,54 +98,32 @@ public class MemberManager {
 			member = list.get(0);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return member;
-
-	// 현재 보유중인 포인트 보기
-	void showPoint() {
-		System.out.println("현재 보유중인 포인트는 " + member.getMpoint() + " 입니다.");
-
 	}
 
-	void addPoint() {
-		System.out.println("충전 하실 금액을 입력해주세요.");
-		int inputPoint = Integer.parseInt(sc.nextLine());
-		int total = member.getMpoint() + inputPoint;
-		member.setMpoint(total);
-
+	// 회원 탈퇴
+	public void deleteMyId(String mid) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			dao.deleteId(conn, member);
+			System.out.println("회원 정보가 삭제되었습니다.");
 
-			int result = dao.editPoint(conn, member);
-
-			System.out.println("충전 완료!");
-			System.out.println("현재 보유중인 포인트는 " + member.getMpoint() + " 입니다.");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	void subPoint() {
-		System.out.println("인출 하실 금액을 입력해주세요.");
-		int inputPoint = Integer.parseInt(sc.nextLine());
-		int total = member.getMpoint() - inputPoint;
-		member.setMpoint(total);
-
+	public void editPoint(int total) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			dao.editPoint(conn, member);
 
-			int result = dao.editPoint(conn, member);
-
-			System.out.println("인출 완료!");
-			System.out.println("현재 보유중인 포인트는 " + member.getMpoint() + " 입니다.");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

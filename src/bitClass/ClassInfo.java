@@ -1,14 +1,11 @@
 package bitClass;
 
-import java.util.Scanner;
-
-import onebitclass.ClassDAO;
 
 public class ClassInfo {
+	private InputReader ir;
+	
 	public void classMenu() {
-		// Connection conn = null;
-		ClassManager manager = new ClassManager(ClassDAO.getInstance());
-		Scanner sc = new Scanner(System.in);
+		ir = new InputReader();
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -24,7 +21,7 @@ public class ClassInfo {
 				System.out.println("0. 홈으로 가기");
 				System.out.println("------------------");
 				System.out.print("번호 입력 : ");
-				int select = Integer.parseInt(sc.nextLine());
+				int select = ir.readInteger();
 
 				switch (select) {
 				case 1:
@@ -40,16 +37,12 @@ public class ClassInfo {
 					showClassification();
 					break;
 				case 0:
-					HomeScreen.memHome();
 					return;
 				}
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} /*catch (SQLException e) {
-			e.printStackTrace();
-			}*/
-
+		}
 	}
 	
 	void showDiscountClasses() {

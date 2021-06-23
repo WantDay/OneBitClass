@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
 
 public class Login {
 	public String mid;
@@ -16,7 +14,7 @@ public class Login {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		Scanner sc = new Scanner(System.in);
+		InputReader ir = new InputReader();
 
 		try {
 			// 1. 드라이버 로드
@@ -37,10 +35,10 @@ public class Login {
 
 			System.out.println();
 			System.out.print("ID(대소문자 유의) : ");
-			mid = sc.nextLine();
+			mid = ir.readString();
 			pstmt.setString(1, mid);
 			System.out.print("PW(대소문자 유의) : ");
-			pstmt.setString(2, sc.nextLine());
+			pstmt.setString(2, ir.readString());
 
 			rs = pstmt.executeQuery();
 

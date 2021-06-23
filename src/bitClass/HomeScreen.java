@@ -1,15 +1,16 @@
 package bitClass;
 
-import java.util.Scanner;
-
 import member.ClassMember;
 import member.ClassMemberDAO;
 import member.MemberManager;
+import onebitclass.ClassDAO;
+import onebitclass.ClassManager;
 
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
-	static boolean isLogin = false;
+	static public boolean isLogin = false;
 	static String mid;
+	static MemberManager manager;
 
 	public static void main(String[] args) {
 		while (true) {
@@ -22,10 +23,9 @@ public class HomeScreen {
 	}
 
 	static void nonMemHome() {
+		manager = new MemberManager(ClassMemberDAO.getInstance());
 		Login login = new Login();
-//		Join join = new Join();
-
-		Scanner sc = new Scanner(System.in);
+		InputReader ir = new InputReader();
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -37,7 +37,7 @@ public class HomeScreen {
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 
-		int num = Integer.parseInt(sc.nextLine());
+		int num = ir.readInteger();
 
 		switch (num) {
 		case 1:
@@ -48,17 +48,20 @@ public class HomeScreen {
 			mid = login.mid;
 			break;
 		case 3:
-//			join.userJoin();
+			manager.createId();
+			break;
 		case 0:
 			System.out.println("프로그램 종료");
-			return;
+			System.exit(0);
+			break;
 		}
 	}
 
 	static void memHome() {
-		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
+		manager = new MemberManager(ClassMemberDAO.getInstance());
 		ClassMember member = manager.loginInfo(mid);
-		Scanner sc = new Scanner(System.in);
+		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
+		InputReader ir = new InputReader();
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -70,7 +73,7 @@ public class HomeScreen {
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
-		int num = Integer.parseInt(sc.nextLine());
+		int num = ir.readInteger();
 
 		switch (num) {
 		case 1:
@@ -83,12 +86,12 @@ public class HomeScreen {
 			System.out.println("신청");
 			break;
 		case 4:
-			System.out.println("등록");
-
+			classManager.showClass(num);
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
-			return;
+			System.exit(0);
+			break;
 		}
 	}
 }

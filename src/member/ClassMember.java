@@ -1,8 +1,6 @@
 package member;
 
-import java.util.Date;
-import java.util.Scanner;
-
+import bitClass.HomeScreen;
 import bitClass.InputReader;
 
 public class ClassMember {
@@ -102,7 +100,7 @@ public class ClassMember {
 
 	// 내 정보 보기
 	public void showMyInfo(MemberManager manager) {
-		Scanner sc = new Scanner(System.in);
+		InputReader ir = new InputReader();
 
 		System.out.println();
 		System.out.println("ID : " + mid);
@@ -119,17 +117,18 @@ public class ClassMember {
 
 		System.out.print("번호 입력 : ");
 
-		int select = Integer.parseInt(sc.nextLine());
+		int select = ir.readInteger();
 
 		switch (select) {
 		case 1:
 			updateMyInfo(manager);
 			break;
 		case 2:
-			manageMyPoint();
+			manageMyPoint(manager);
 			break;
 		case 3:
-			deleteMyId();
+			deleteMyId(manager);
+			HomeScreen.isLogin = false;
 			break;
 		case 0:
 			break;
@@ -142,36 +141,36 @@ public class ClassMember {
 	// 내 정보 수정
 	private void updateMyInfo(MemberManager manager) {
 		manager.editId();
-		System.out.println("수정");
 	}
 
 	// 회원 탈퇴
-	private void deleteMyId() {
-		System.out.println("탈퇴");
-		// dao를 통해 자신의 id 탈퇴
-
+	private void deleteMyId(MemberManager manager) {
+		manager.deleteMyId(mid);
 	}
 
 	// 포인트 관리
-	private void manageMyPoint() {
+	private void manageMyPoint(MemberManager manager) {
 		// 포인트 충전, 인출, 정산 선택
 
+		System.out.println("1. 포인트 충전");
+		System.out.println("2. 포인트 인출");
+		
 		InputReader ir = new InputReader();
 		int select = ir.readInteger();
 
-		selectPointMenu(select);
+		selectPointMenu(select, manager);
 	}
 
 	// 포인트 관리 메뉴 선택하기
-	private void selectPointMenu(int select) {
+	private void selectPointMenu(int select, MemberManager manager) {
 		switch (select) {
 		case 1:
 			// 포인트 충전
-			chargePoint();
+			chargePoint(manager);
 			break;
 		case 2:
 			// 포인트 인출
-			withdrawPoint();
+			withdrawPoint(manager);
 			break;
 		case 3:
 			// 포인트 정산
@@ -184,23 +183,30 @@ public class ClassMember {
 	}
 
 	// 포인트 충전
-	private void chargePoint() {
+	private void chargePoint(MemberManager manager) {
+		System.out.println("충전 하실 금액을 입력해주세요.");
 		InputReader ir = new InputReader();
 		int charge = ir.readInteger();
 		this.mpoint += charge;
 
-		// dao를 통해 포인트 갱신
-		System.out.println(charge + "포인트가 정상적으로 충전됐습니다.");
+		manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
+		
+		System.out.println("충전 완료!");
+		System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
 	}
 
 	// 포인트 인출
-	private void withdrawPoint() {
+	private void withdrawPoint(MemberManager manager) {
+		System.out.println("인출 하실 금액을 입력해주세요.");
 		InputReader ir = new InputReader();
 		int withdrawal = ir.readInteger();
 		this.mpoint -= withdrawal;
+		
+		manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
+		
+		System.out.println("인출 완료!");
+		System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
 
-		// dao를 통해 포인트 갱신
-		System.out.println(withdrawal + "포인트가 정상적으로 인출됐습니다.");
 	}
 
 	// 포인트 정산
