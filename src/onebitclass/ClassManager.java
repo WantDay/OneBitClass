@@ -51,15 +51,15 @@ public class ClassManager {
 		System.out.print("번호 입력 : ");
 		int num = ir.readInteger();
 
-		selectMyInfoMenu(num);
+		selectMyInfoMenu(num, mno);
 	}
 
 	// 강좌 정보 메뉴 선택하기
-	private void selectMyInfoMenu(int num) {
+	private void selectMyInfoMenu(int num, int mno) {
 		switch (num) {
 		case 1:
 			// 1. 강좌 개설
-			createClass(num);
+			createClass(mno);
 			break;
 		case 2:
 			// 2. 수강료 할인
