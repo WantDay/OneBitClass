@@ -9,14 +9,13 @@ import member.MemberManager;
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
 	static boolean isLogin = false;
-	static ClassMember member;
 	static String mid;
 
 	public static void main(String[] args) {
 		while (true) {
-			if(isLogin) {
+			if (isLogin) {
 				memHome();
-			}else {
+			} else {
 				nonMemHome();
 			}
 		}
@@ -25,7 +24,7 @@ public class HomeScreen {
 	static void nonMemHome() {
 		Login login = new Login();
 //		Join join = new Join();
-		
+
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -58,8 +57,8 @@ public class HomeScreen {
 
 	static void memHome() {
 		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
-		member = manager.loginInfo(mid);
- 		Scanner sc = new Scanner(System.in);
+		ClassMember member = manager.loginInfo(mid);
+		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -78,7 +77,7 @@ public class HomeScreen {
 			classInfo.classMenu();
 			break;
 		case 2:
-			manager.showMyInfo(mid);
+			member.showMyInfo(manager);
 			break;
 		case 3:
 			System.out.println("신청");
