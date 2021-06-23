@@ -9,39 +9,37 @@ public class ClassInfo {
 		
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
+			
+			System.out.println();
+			System.out.println("강좌 정보");
+			System.out.println("------------------");
+			System.out.println("1. 할인 중인 강좌");
+			System.out.println("2. 마감 임박 강좌");
+			System.out.println("3. 지역 근처 강좌");
+			System.out.println("4. 분류별 강좌");
+			System.out.println("0. 홈으로 가기");
+			System.out.println("------------------");
+			System.out.print("번호 입력 : ");
+			int select = ir.readInteger();
 
-			while (true) {
-				System.out.println();
-				System.out.println("강좌 정보");
-				System.out.println("------------------");
-				System.out.println("1. 할인 중인 강좌");
-				System.out.println("2. 마감 임박 강좌");
-				System.out.println("3. 지역 근처 강좌");
-				System.out.println("4. 분류별 강좌");
-				System.out.println("0. 홈으로 가기");
-				System.out.println("------------------");
-				System.out.print("번호 입력 : ");
-				int select = ir.readInteger();
-
-				switch (select) {
-				case 1:
-					showDiscountClasses();
-					break;
-				case 2:
-					showDeadlineClasses();
-					break;
-				case 3:
-					showLocalClasses();
-					break;
-				case 4:
-					showClassification();
-					break;
-				case 0:
-					break;
-				default:
-					System.out.println("올바른 숫자를 입력하세요.");
-					break;
-				}
+			switch (select) {
+			case 1:
+				showDiscountClasses();
+				break;
+			case 2:
+				showDeadlineClasses();
+				break;
+			case 3:
+				showLocalClasses();
+				break;
+			case 4:
+				showClassification();
+				break;
+			case 0:
+				break;
+			default:
+				System.out.println("올바른 숫자를 입력하세요.");
+				break;
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
