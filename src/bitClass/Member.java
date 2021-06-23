@@ -10,18 +10,17 @@ public class Member {
 	private String location;
 	private int point;
 
-	// public Member(String id) {
-	// this.id = id;
-	// 데이터베이스에서 정보 보기
-	//
-	// id를 기준으로 DB에서 정보 가져오기
-	// getMemberByName(id);
-	//
-	// this.name = name;
-	// this.birthday = birthday;
-	// this.location = location;
-	// this.point = point;
-	// }
+//	 public Member(String id) {
+//	 this.id = id;
+////	 데이터베이스에서 정보 보기
+////	 id를 기준으로 DB에서 정보 가져오기
+//	 getMemberByName(id);
+//	
+//	 this.name = name;
+//	 this.birthday = birthday;
+//	 this.location = location;
+//	 this.point = point;
+//	 }
 
 	// 내 정보 보기
 	void showMyInfo() {
@@ -55,7 +54,6 @@ public class Member {
 			deleteMyId();
 			break;
 		case 0:
-			HomeScreen.memHome();
 			break;
 		default:
 			System.out.println("올바른 숫자를 입력하세요.");

@@ -3,15 +3,24 @@ package bitClass;
 import java.util.Scanner;
 
 public class HomeScreen {
+	static ClassInfo classInfo = new ClassInfo();
+	static boolean isLogin=false;
+
 	public static void main(String[] args) {
 		
-		while(true) {
-			nonMemHome();
+		while (true) {
+			if(isLogin) {
+				memHome();
+			}else {
+				nonMemHome();
+			}
 		}
 	}
 
 	static void nonMemHome() {
-		Login login=new Login();
+		Login login = new Login();
+//		Join join = new Join();
+		
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -28,13 +37,13 @@ public class HomeScreen {
 
 		switch (num) {
 		case 1:
-			ClassMain.classInfo();
+			classInfo.classMenu();
 			break;
 		case 2:
-			login.userLogin();
+			isLogin = login.userLogin();
 			break;
-		// case 9:
-		// Join.main(null);
+		case 3:
+//			join.userJoin();
 		case 0:
 			System.out.println("프로그램 종료");
 			return;
@@ -42,6 +51,7 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
+		Member member = new Member();
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -55,20 +65,20 @@ public class HomeScreen {
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 		int num = Integer.parseInt(sc.nextLine());
-		
+
 		switch (num) {
 		case 1:
-			ClassMain.classInfo();
+			classInfo.classMenu();
 			break;
 		case 2:
-		
+			member.showMyInfo();
 			break;
 		case 3:
 			System.out.println("신청");
 			break;
 		case 4:
 			System.out.println("등록");
-			
+
 			break;
 		case 0:
 			System.out.println("프로그램 종료");

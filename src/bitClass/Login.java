@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Login {
-	public void userLogin() {
+	public boolean userLogin() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -44,10 +44,11 @@ public class Login {
 			if (rs.next()) {
 				System.out.println();
 				System.out.println("로그인 완료! 환영합니다.");
-				// 로그인 후 멤버 객체 생성
+				return true;
 			} else {
 				System.out.println();
 				System.out.println("아이디와 비밀번호를 다시 확인해주세요.");
+				return false;
 			}
 
 		} catch (ClassNotFoundException e) {
@@ -73,5 +74,6 @@ public class Login {
 				}
 			}
 		}
+		return false;
 	}
 }
