@@ -100,8 +100,8 @@ public class MemberManager {
 			System.out.println("회원 정보를 출력합니다.");
 
 			List<ClassMember> list = dao.getInfo(conn, mid);
-
 			member = list.get(0);
+			
 			System.out.println("이름 : " + member.getMname());
 			System.out.println("생년월일 : " + member.getMdate());
 			System.out.println("관심 지역 : " + member.getMloc());

@@ -114,7 +114,7 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("원하는 강좌의 수강료 할인을 시작합니다.");
-			System.out.println("강좌 번호를 입력해주세요.");
+			System.out.println("강좌 제목을 입력해주세요.");
 			String title = sc.nextLine();
 			System.out.println("할인율을 입력해주세요. (예:10)");
 			int discount = Integer.parseInt(sc.nextLine());
