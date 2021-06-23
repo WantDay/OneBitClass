@@ -3,7 +3,6 @@ package onebitclass;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 
 import bitClass.InputReader;
 
@@ -29,14 +28,10 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-//			System.out.println("ID를 다시 한 번 입력해주세요.");
-//			System.out.print(": ");
-//			String mid = sc.nextLine();
-			List<BitClass> list = dao.getInfo(conn, mno);
+			// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
+			System.out.println("-------------------------------------------------");
+			System.out.println();
 
-			for (BitClass bitClass : list) {
-				System.out.println(bitClass);
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +40,6 @@ public class ClassManager {
 		System.out.println();
 		System.out.println("1. 강좌 개설");
 		System.out.println("2. 수강료 할인");
-		System.out.println("3. 지난 강좌 보기");
 		System.out.println("0. 홈으로 가기");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
@@ -65,9 +59,6 @@ public class ClassManager {
 			// 2. 수강료 할인
 			discountFee();
 			break;
-		case 3:
-			// 3. 지난 강좌 보기
-			pastClass();
 		case 0:
 			// 0. 홈으로가기
 			break;
@@ -83,7 +74,7 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("새로운 강좌를 개설합니다.");
-			System.out.println("강좌 제목을 입력해주세요.");
+			System.out.println("강좌 번호를 입력해주세요.");
 			String title = ir.readString();
 			System.out.println("강좌가 진행될 지역을 입력해주세요.");
 			String cloc = ir.readString();
@@ -135,10 +126,5 @@ public class ClassManager {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-	}
-
-	// 지난 강좌 보기
-	private void pastClass() {
-
 	}
 }

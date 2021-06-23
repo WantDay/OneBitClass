@@ -54,6 +54,9 @@ public class HomeScreen {
 			System.out.println("프로그램 종료");
 			System.exit(0);
 			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
+			break;
 		}
 	}
 
@@ -92,6 +95,8 @@ public class HomeScreen {
 			System.out.println("프로그램 종료");
 			System.exit(0);
 			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
 		}
 	}
 }

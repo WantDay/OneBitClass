@@ -37,7 +37,10 @@ public class ClassInfo {
 					showClassification();
 					break;
 				case 0:
-					return;
+					break;
+				default:
+					System.out.println("올바른 숫자를 입력하세요.");
+					break;
 				}
 			}
 		} catch (ClassNotFoundException e) {
