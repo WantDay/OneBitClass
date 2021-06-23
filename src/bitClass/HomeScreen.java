@@ -93,10 +93,11 @@ public class HomeScreen {
 			System.out.println("신청");
 			break;
 		case 4:
-			manager2.showClass(num);
+			manager2.showClass(member.getMno());
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
+			
 			break;
 		default:
 			System.out.println("올바른 숫자를 입력하세요.");

@@ -8,7 +8,7 @@ import bitClass.InputReader;
 public class ClassMember {
 	// 회원이 입력 데이터를 넣어서 가입 및 관리
 
-	private int mno; // 회원 번호
+	private int mno = 0; // 회원 번호
 	private String mid; // 회원 ID
 	private String mpw; // 비밀번호
 	private String mname; // 이름

@@ -7,7 +7,6 @@ import onebitclass.ClassManager;
 
 public class ClassInfo {
 	public void classMenu() {
-		// Connection conn = null;
 		ClassManager manager = new ClassManager(ClassDAO.getInstance());
 		Scanner sc = new Scanner(System.in);
 

@@ -107,7 +107,6 @@ public class BitClass {
 
 	public BitClass(int cno, int mno, String title, String cloc, String startDate, String endDate,
 			int fee, int discount, float rate, int numPeople, int enroll) {
-		super();
 		this.cno = cno;
 		this.mno = mno;
 		this.title = title;
@@ -138,29 +137,10 @@ public class BitClass {
 		this.discount = discount;
 	}
 
+
 	@Override
 	public String toString() {
-		return "BitClass [cno=" + cno
-				+ ", mno="
-				+ mno
-				+ ", title="
-				+ title
-				+ ", cloc="
-				+ cloc
-				+ ", startDate="
-				+ startDate
-				+ ", endDate="
-				+ endDate
-				+ ", fee="
-				+ fee
-				+ ", discount="
-				+ discount
-				+ ", rate="
-				+ rate
-				+ ", numPeople="
-				+ numPeople
-				+ ", enroll="
-				+ enroll
-				+ "]";
-	}
+		return getTitle() + "\t "+ getCloc() + "\t " + getFee()*(1-getDiscount()*0.01)
+				+ "\t "	+ getStartDate() + "\t " + getEndDate();
+}
 }
