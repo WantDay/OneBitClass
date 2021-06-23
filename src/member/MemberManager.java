@@ -91,7 +91,7 @@ public class MemberManager {
 		
 	}
 	// 회원 정보 확인 
-	void showMyInfo() {
+	int showMyInfo() {
 
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
@@ -114,7 +114,7 @@ public class MemberManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
+		return member.getMno();	
 	}
 	
 	// 포인트 관리 
