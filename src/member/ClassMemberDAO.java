@@ -1,13 +1,10 @@
 package member;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ClassMemberDAO {
@@ -44,7 +41,6 @@ public class ClassMemberDAO {
 			result = pstmt.executeUpdate();
 			
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				if(pstmt != null) {
@@ -60,7 +56,6 @@ public class ClassMemberDAO {
 	}
 	
 	// 2. 회원 정보 수정
-
 	int editInfo(Connection conn, ClassMember member) {
 
 		int result = 0;
@@ -78,21 +73,16 @@ public class ClassMemberDAO {
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(pstmt != null) {
 				try {
 					pstmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		
-		
-		
 		return result;
 	}
 	
@@ -120,19 +110,13 @@ public class ClassMemberDAO {
 				list.add(new ClassMember(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5),
 										rs.getString(6), rs.getInt(7)));
 			}
-				
-			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
 		} finally {
 			if(rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -141,15 +125,10 @@ public class ClassMemberDAO {
 				try {
 					pstmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			
 		}
-		
-		
-		
 		return list ;
 	}
 	
@@ -168,58 +147,45 @@ public class ClassMemberDAO {
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(pstmt != null) {
 				try {
 					pstmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		
-		
-		
 		return result;
 	}
 	
-	
-	
 	// 2. 포인트 수정
+	int editPoint(Connection conn, ClassMember member) {
 
-		int editPoint(Connection conn, ClassMember member) {
+		int result = 0;
 
-			int result = 0;
+		PreparedStatement pstmt = null;
+		
+		try {
+			String sql = "update classmember set mpoint=? where mid=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, member.getMpoint());
+			pstmt.setString(2, member.getMid());
 
-			PreparedStatement pstmt = null;
+			result = pstmt.executeUpdate();
 			
-			try {
-				String sql = "update classmember set mpoint=? where mid=?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, member.getMpoint());
-				pstmt.setString(2, member.getMid());
-
-				result = pstmt.executeUpdate();
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
 			}
-			
-			
-			
-			return result;
 		}
+		return result;
+	}
 }
