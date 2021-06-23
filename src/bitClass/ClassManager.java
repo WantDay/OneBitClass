@@ -6,16 +6,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
+import onebitclass.BitClass;
+import onebitclass.ClassDAO;
+
 public class ClassManager {
-	private ClassDao dao;
+	private ClassDAO dao;
 	private Scanner sc;
 
-	public ClassManager(ClassDao dao) {
+	public ClassManager(ClassDAO dao) {
 		this.dao = dao;
 		sc = new Scanner(System.in);
 	}
 
-	void classList() {
+	void classList(int mno) {
 		// Connection 객체 생성
 		Connection conn = null;
 
@@ -26,14 +29,14 @@ public class ClassManager {
 
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			List<OneBitClass> list = dao.getClassList(conn);
+			List<BitClass> list = dao.getInfo(conn, mno);
 
 			System.out.println("강좌 정보 리스트");
 			System.out.println("-------------------------------------");
 			System.out.println("강좌번호 \t 강좌제목 \t 수강료");
 			System.out.println("-------------------------------------");
 
-			for (OneBitClass bitClass : list) {
+			for (BitClass bitClass : list) {
 				System.out.printf("%d \t %s \t %d \n", bitClass.getCno(), bitClass.getTitle(),
 						bitClass.getFee());
 			}
@@ -99,11 +102,9 @@ public class ClassManager {
 		// dao를 통해 강좌 관리
 
 	// 강좌 할인율 적용
-	private void discountClass() {
 		
 	
 	
 	}
 		
-	}
 }

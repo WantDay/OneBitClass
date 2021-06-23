@@ -2,12 +2,17 @@ package bitClass;
 
 import java.util.Scanner;
 
+import member.ClassMember;
+import member.ClassMemberDAO;
+import member.MemberManager;
+
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
-	static boolean isLogin=false;
+	static boolean isLogin = false;
+	static ClassMember member;
+	static String mid;
 
 	public static void main(String[] args) {
-		
 		while (true) {
 			if(isLogin) {
 				memHome();
@@ -41,6 +46,7 @@ public class HomeScreen {
 			break;
 		case 2:
 			isLogin = login.userLogin();
+			mid = login.mid;
 			break;
 		case 3:
 //			join.userJoin();
@@ -51,8 +57,9 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
-		Member member = new Member();
-		Scanner sc = new Scanner(System.in);
+		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
+		member = manager.loginInfo(mid);
+ 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -71,7 +78,7 @@ public class HomeScreen {
 			classInfo.classMenu();
 			break;
 		case 2:
-			member.showMyInfo();
+			manager.showMyInfo(mid);
 			break;
 		case 3:
 			System.out.println("신청");

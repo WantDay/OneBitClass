@@ -2,10 +2,12 @@ package bitClass;
 
 import java.util.Scanner;
 
+import onebitclass.ClassDAO;
+
 public class ClassInfo {
 	public void classMenu() {
 		// Connection conn = null;
-		ClassManager manager = new ClassManager(ClassDao.getInstance());
+		ClassManager manager = new ClassManager(ClassDAO.getInstance());
 		Scanner sc = new Scanner(System.in);
 		
 		try {

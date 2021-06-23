@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Login {
+	public String mid;
+	
 	public boolean userLogin() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -35,7 +37,8 @@ public class Login {
 
 			System.out.println();
 			System.out.print("ID(대소문자 유의) : ");
-			pstmt.setString(1, sc.nextLine());
+			mid = sc.nextLine();
+			pstmt.setString(1, mid);
 			System.out.print("PW(대소문자 유의) : ");
 			pstmt.setString(2, sc.nextLine());
 

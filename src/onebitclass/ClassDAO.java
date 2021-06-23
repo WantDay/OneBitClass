@@ -38,10 +38,10 @@ public class ClassDAO {
 			pstmt.setInt(1, mno);
 			pstmt.setString(2, bitClass.getTitle());
 			pstmt.setString(3, bitClass.getCloc());
-			pstmt.setString(4, bitClass.getStartdate());
-			pstmt.setString(5, bitClass.getEnddate());
+			pstmt.setString(4, bitClass.getStartDate());
+			pstmt.setString(5, bitClass.getEndDate());
 			pstmt.setInt(6, bitClass.getFee());
-			pstmt.setInt(7, bitClass.getNumpeople());
+			pstmt.setInt(7, bitClass.getNumPeople());
 
 			result = pstmt.executeUpdate();
 
@@ -93,7 +93,7 @@ public class ClassDAO {
 	}
 
 	// 3. 강좌 정보 가져오기
-	ArrayList<BitClass> getInfo(Connection conn, int mno) {
+	public ArrayList<BitClass> getInfo(Connection conn, int mno) {
 
 		ArrayList<BitClass> list = null;
 
@@ -142,4 +142,5 @@ public class ClassDAO {
 
 		return list;
 	}
+
 }

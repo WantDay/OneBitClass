@@ -19,13 +19,13 @@ public class membermain {
 //			// 정보 수정
 //			manager.editId();
 			// 정보 보기
-			int mno = manager.showMyInfo();
+//			ClassMember member = manager.showMyInfo();
 			// 포인트 확인
 //			manager.showPoint();
 //			// 포인트 충전
 //			manager.addPoint();
 //			// 포인트 인출
-			classManager.createClass(mno);
+			//classManager.createClass();
 			
 			
 		} catch (ClassNotFoundException e) {

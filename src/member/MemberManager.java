@@ -91,22 +91,22 @@ public class MemberManager {
 		
 	}
 	// 회원 정보 확인 
-	int showMyInfo() {
-
+	public ClassMember showMyInfo(String mid) {
+		
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 			
 			System.out.println("회원 정보를 출력합니다.");
-			System.out.println("ID를 다시 한 번 입력해주세요.");
-			String mid = sc.nextLine();
+
 			List<ClassMember> list = dao.getInfo(conn, mid);
 			
 			member = list.get(0);
-				System.out.println("이름 : " + member.getMname());
-				System.out.println("생년월일 : " + member.getMdate());
-				System.out.println("관심 지역 : " + member.getMloc());
-				System.out.println("포인트 : " + member.getMpoint());
-				System.out.println("------------------------");				
+			System.out.println("이름 : " + member.getMname());
+			System.out.println("생년월일 : " + member.getMdate());
+			System.out.println("관심 지역 : " + member.getMloc());
+			System.out.println("포인트 : " + member.getMpoint());
+			System.out.println("------------------------");	
+			
 			
 			
 
@@ -114,8 +114,26 @@ public class MemberManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return member.getMno();	
+		return member;	
 	}
+	
+	//로그인 회원 관리
+	public ClassMember loginInfo(String mid) {
+		try {
+			
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			List<ClassMember> list = dao.getInfo(conn, mid);
+			
+			member = list.get(0);
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		return member;
+	} 
 	
 	// 포인트 관리 
 	// 현재 보유중인 포인트 보기

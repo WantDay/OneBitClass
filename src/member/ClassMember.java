@@ -8,7 +8,9 @@ import bitClass.InputReader;
 public class ClassMember { 	
 				// 회원이 입력 데이터를 넣어서 가입 및 관리
 
-	 private int mno; // 회원 번호
+
+
+	private int mno; // 회원 번호
 	 private String mid; // 회원 ID
 	private String mpw; // 비밀번호
 	 private String mname; // 이름
@@ -213,7 +215,11 @@ public class ClassMember {
 			System.out.println("입금된 포인트 : " + earnedPoint);
 			System.out.println("사용한 포인트 : " + usedPoint);
 		}
-
+		 @Override
+			public String toString() {
+				return "ClassMember [mno=" + mno + ", mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", mdate=" + mdate
+						+ ", mloc=" + mloc + ", mpoint=" + mpoint + "]";
+			}
 
 
 }
