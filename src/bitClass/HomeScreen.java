@@ -2,16 +2,31 @@ package bitClass;
 
 import java.util.Scanner;
 
+<<<<<<< Updated upstream
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
 	static boolean isLogin=false;
+=======
+import member.ClassMember;
+import member.ClassMemberDAO;
+import member.MemberManager;
+import onebitclass.ClassDAO;
+import onebitclass.ClassManager;
+
+public class HomeScreen {
+	static ClassInfo classInfo = new ClassInfo();
+	static boolean isLogin = false;
+	static ClassMember member;
+
+	static String mid;
+>>>>>>> Stashed changes
 
 	public static void main(String[] args) {
 		
 		while (true) {
-			if(isLogin) {
+			if (isLogin) {
 				memHome();
-			}else {
+			} else {
 				nonMemHome();
 			}
 		}
@@ -19,8 +34,8 @@ public class HomeScreen {
 
 	static void nonMemHome() {
 		Login login = new Login();
-//		Join join = new Join();
-		
+		// Join join = new Join();
+
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -43,15 +58,26 @@ public class HomeScreen {
 			isLogin = login.userLogin();
 			break;
 		case 3:
-//			join.userJoin();
+			// join.userJoin();
+			break;
 		case 0:
 			System.out.println("프로그램 종료");
-			return;
+			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
+			break;
 		}
 	}
 
 	static void memHome() {
+<<<<<<< Updated upstream
 		Member member = new Member();
+=======
+		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
+		member = manager.loginInfo(mid);
+		ClassManager manager2 = new ClassManager(ClassDAO.getInstance());
+		
+>>>>>>> Stashed changes
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println();
@@ -77,12 +103,14 @@ public class HomeScreen {
 			System.out.println("신청");
 			break;
 		case 4:
-			System.out.println("등록");
-
+			manager2.showClass(num);
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
-			return;
+			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
+			break;
 		}
 	}
 }

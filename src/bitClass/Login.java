@@ -9,6 +9,11 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Login {
+<<<<<<< Updated upstream
+=======
+	public String mid;
+
+>>>>>>> Stashed changes
 	public boolean userLogin() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;

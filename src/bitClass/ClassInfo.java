@@ -2,12 +2,18 @@ package bitClass;
 
 import java.util.Scanner;
 
+<<<<<<< Updated upstream
+=======
+import onebitclass.ClassDAO;
+import onebitclass.ClassManager;
+
+>>>>>>> Stashed changes
 public class ClassInfo {
 	public void classMenu() {
 		// Connection conn = null;
 		ClassManager manager = new ClassManager(ClassDao.getInstance());
 		Scanner sc = new Scanner(System.in);
-		
+
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
@@ -38,8 +44,10 @@ public class ClassInfo {
 					showClassification();
 					break;
 				case 0:
-					HomeScreen.memHome();
-					return;
+					break;
+				default:
+					System.out.println("올바른 숫자를 입력하세요.");
+					break;
 				}
 			}
 		} catch (ClassNotFoundException e) {
@@ -49,7 +57,7 @@ public class ClassInfo {
 			}*/
 
 	}
-	
+
 	void showDiscountClasses() {
 		// dao로 강좌 리스트 받아오기
 		// 할인 중인 강좌를 할인 순으로 정렬
