@@ -27,13 +27,10 @@ public class ClassDAO {
 
 	int createClass(Connection conn, BitClass bitClass, int mno) { // 강좌 개설, 강사 번호 입력.
 
-		System.out.println(1111);
 		PreparedStatement pstmt = null;
 		int result = 0;
 
 		String sql = "insert into bitclass (cno, mno, title, cloc, startdate, enddate, fee, numpeople) values (bitclass_cno_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
-
-		System.out.println(sql);
 
 		try {
 			pstmt = conn.prepareStatement(sql);

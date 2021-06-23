@@ -45,8 +45,6 @@ public class ClassManager {
 			int numpeople = Integer.parseInt(sc.nextLine());
 	
 			bitClass = new BitClass(0, title, cloc, startdate, enddate, fee, numpeople);
-			
-			System.out.println(bitClass);
 
 			int result = dao.createClass(conn, bitClass, mno);
 			
