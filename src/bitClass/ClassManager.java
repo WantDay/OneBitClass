@@ -98,5 +98,12 @@ public class ClassManager {
 	private void manageClass() {
 		// dao를 통해 강좌 관리
 
+	// 강좌 할인율 적용
+	private void discountClass() {
+		
+	
+	
+	}
+		
 	}
 }
