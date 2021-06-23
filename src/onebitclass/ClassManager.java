@@ -3,6 +3,7 @@ package onebitclass;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 import bitClass.InputReader;
 
@@ -30,6 +31,7 @@ public class ClassManager {
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
 			// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
 			System.out.println("-------------------------------------------------");
+			List<BitClass> list = dao.getInfo(conn, mno);
 			System.out.println();
 
 		} catch (SQLException e) {
@@ -74,7 +76,7 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("새로운 강좌를 개설합니다.");
-			System.out.println("강좌 번호를 입력해주세요.");
+			System.out.println("강좌 제목을 입력해주세요.");
 			String title = ir.readString();
 			System.out.println("강좌가 진행될 지역을 입력해주세요.");
 			String cloc = ir.readString();
