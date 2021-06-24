@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -107,18 +108,18 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
+				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
-						rs.getString(5), rs.getString(6), rs.getInt(7), rs.getInt(8),
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10),rs.getInt(12)));
 			}
 			Iterator<BitClass> itr = list.iterator();
 			while(itr.hasNext()) {
 				BitClass bc = (BitClass)itr.next();
-				// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
 				System.out.print(bc);
+				System.out.println();
 			}
 			
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -140,6 +141,7 @@ public class ClassDAO {
 			}
 
 		}
+
 		return list;
 	}
 }
