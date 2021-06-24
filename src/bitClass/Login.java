@@ -6,8 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import encryption.Encryption;
+
 public class Login {
 	public String mid;
+	private String mpw;
+	private Encryption encryption;
 	
 	public boolean userLogin() {
 		Connection conn = null;
@@ -38,7 +42,12 @@ public class Login {
 			mid = ir.readString();
 			pstmt.setString(1, mid);
 			System.out.print("PW(대소문자 유의) : ");
-			pstmt.setString(2, ir.readString());
+			mpw = ir.readString();
+
+			encryption = new Encryption(mpw.getBytes());
+			mpw = encryption.hashing();
+			
+			pstmt.setString(2, mpw);
 
 			rs = pstmt.executeQuery();
 
@@ -57,6 +66,8 @@ public class Login {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("데이터베이스 연결 실패!!!");
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {

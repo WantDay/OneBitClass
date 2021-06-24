@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
+
+import bitClass.InputReader;
+import encryption.Encryption;
 
 public class MemberManager {
 
 	private ClassMemberDAO dao;
-	private Scanner sc;
 	private ClassMember member;
+	private InputReader ir;
+	private Encryption encryption;
 	Connection conn = null;
 	String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 	String user = "hr";
@@ -18,7 +21,7 @@ public class MemberManager {
 
 	public MemberManager(ClassMemberDAO dao) {
 		this.dao = dao;
-		sc = new Scanner(System.in);
+		ir = new InputReader();
 	}
 
 	// 회원 가입
@@ -30,15 +33,15 @@ public class MemberManager {
 
 			System.out.println("회원 가입을 시작합니다.");
 			System.out.println("ID를 입력해주세요.");
-			String mid = sc.nextLine();
+			String mid = ir.readString();
 			System.out.println("PW를 입력해주세요.");
-			String mpw = sc.nextLine();
+			String mpw = ir.readString();
 			System.out.println("이름을 입력해주세요.");
-			String mname = sc.nextLine();
+			String mname = ir.readString();
 			System.out.println("생년월일을 입력해주세요. ex)91/07/21");
-			String mdate = sc.nextLine();
+			String mdate = ir.readString();
 			System.out.println("선호하시는 지역을 입력해주세요.");
-			String mloc = sc.nextLine();
+			String mloc = ir.readString();
 
 			member = new ClassMember(0, mid, mpw, mname, mdate, mloc);
 
@@ -64,13 +67,13 @@ public class MemberManager {
 
 			System.out.println("회원 정보를 수정합니다.");
 			System.out.println("ID를 다시 한 번 입력해주세요.");
-			String mid = sc.nextLine();
+			String mid = ir.readString();
 			System.out.println("수정하실 PW를 입력해주세요. 변경을 원치 않을 경우 기존 정보를 입력해주세요.");
-			String mpw = sc.nextLine();
+			String mpw = ir.readString();
 			System.out.println("지역을 입력해주세요. 변경을 원치 않을 경우 기존 정보를 입력해주세요.");
-			String mloc = sc.nextLine();
+			String mloc = ir.readString();
 			System.out.println("생년월일을 입력해주세요. ex)91/07/21");
-			String mdate = sc.nextLine();
+			String mdate = ir.readString();
 
 			member = new ClassMember(mid, mpw, mloc, mdate);
 
@@ -108,7 +111,7 @@ public class MemberManager {
 	public void deleteMyId(String mid) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			
+
 			dao.deleteId(conn, member);
 			System.out.println("회원 정보가 삭제되었습니다.");
 
@@ -122,7 +125,7 @@ public class MemberManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 			dao.editPoint(conn, member);
 
-			} catch (SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
