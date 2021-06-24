@@ -4,17 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
-import bitClass.HomeScreen;
 import bitClass.InputReader;
-import member.ClassMember;
 
 public class ClassManager {
 
 	private ClassDAO dao;
-	private Scanner sc;
 	private BitClass bitClass;
+	private InputReader ir;
 	Connection conn = null;
 	String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 	String user = "hr";
@@ -22,7 +19,7 @@ public class ClassManager {
 
 	public ClassManager(ClassDAO dao) {
 		this.dao = dao;
-		sc = new Scanner(System.in);
+		ir = new InputReader();
 
 	}
 
@@ -48,7 +45,7 @@ public class ClassManager {
 		System.out.println("0. 홈으로 가기");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
-		int num = Integer.parseInt(sc.nextLine());
+		int num = ir.readInteger();
 
 		selectMyInfoMenu(num, mno);
 	}
@@ -80,17 +77,17 @@ public class ClassManager {
 
 			System.out.println("새로운 강좌를 개설합니다.");
 			System.out.println("강좌 제목을 입력해주세요.");
-			String title = sc.nextLine();
+			String title = ir.readString();
 			System.out.println("강좌가 진행될 지역을 입력해주세요.");
-			String cloc = sc.nextLine();
+			String cloc = ir.readString();
 			System.out.println("강좌 시작 날짜를 입력해주세요 ex)2021/06/20");
-			String startdate = sc.nextLine();
+			String startdate = ir.readString();
 			System.out.println("강좌 종료 날짜를 입력해주세요 ex)2021/06/20");
-			String enddate = sc.nextLine();
+			String enddate = ir.readString();
 			System.out.println("수강료를 입력해주세요. (only 숫자)");
-			int fee = Integer.parseInt(sc.nextLine());
+			int fee = ir.readInteger();
 			System.out.println("최대 수강 인원을 입력해주세요 (only 숫자)");
-			int numpeople = Integer.parseInt(sc.nextLine());
+			int numpeople = ir.readInteger();
 
 			bitClass = new BitClass(0, title, cloc, startdate, enddate, fee, numpeople);
 
@@ -102,7 +99,6 @@ public class ClassManager {
 				System.out.println("입력 실패!!!");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 			e.printStackTrace();
 		}
@@ -115,9 +111,9 @@ public class ClassManager {
 
 			System.out.println("원하는 강좌의 수강료 할인을 시작합니다.");
 			System.out.println("강좌 제목을 입력해주세요.");
-			String title = sc.nextLine();
+			String title = ir.readString();
 			System.out.println("할인율을 입력해주세요. (예:10)");
-			int discount = Integer.parseInt(sc.nextLine());
+			int discount = ir.readInteger();
 
 			bitClass = new BitClass(0, title, discount);
 
@@ -129,7 +125,6 @@ public class ClassManager {
 				System.out.println("입력 실패!!!");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 			e.printStackTrace();
 		}
