@@ -80,6 +80,7 @@ public class ClassInfo {
 		}
 	}
 
+	// 할인 강좌 보기
 	void showDiscountClasses() {
 		classManager = new ClassManager(ClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getDiscountClass();
