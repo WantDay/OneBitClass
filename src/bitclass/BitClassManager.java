@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import home.InputReader;
+import member.Member;
 
 public class BitClassManager {
 
@@ -32,7 +33,7 @@ public class BitClassManager {
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
-			List<BitClass> list = dao.getInfo(conn, mno);
+			dao.getInfo(conn, mno);
 			System.out.println();
 
 		} catch (SQLException e) {
@@ -205,5 +206,35 @@ public class BitClassManager {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	public void enrollClass(BitClass bitClass, Member member) {
+		
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			dao.enrollClass(conn, bitClass, member);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void showMyClassInfo(Member member) {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+					
+			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+			
+			List<BitClass> list = dao.getMyClassInfo(conn, member);
+			
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(i+1 + ". " +list.get(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
