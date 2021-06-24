@@ -29,14 +29,11 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-//			System.out.println("ID를 다시 한 번 입력해주세요.");
-//			System.out.print(": ");
-//			String mid = sc.nextLine();
+			// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
+			System.out.println("-------------------------------------------------");
 			List<BitClass> list = dao.getInfo(conn, mno);
+			System.out.println();
 
-			for (BitClass bitClass : list) {
-				System.out.println(bitClass);
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,29 +42,25 @@ public class ClassManager {
 		System.out.println();
 		System.out.println("1. 강좌 개설");
 		System.out.println("2. 수강료 할인");
-		System.out.println("3. 지난 강좌 보기");
 		System.out.println("0. 홈으로 가기");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 		int num = ir.readInteger();
 
-		selectMyInfoMenu(num);
+		selectMyInfoMenu(num, mno);
 	}
 
 	// 강좌 정보 메뉴 선택하기
-	private void selectMyInfoMenu(int num) {
+	private void selectMyInfoMenu(int num, int mno) {
 		switch (num) {
 		case 1:
 			// 1. 강좌 개설
-			createClass(num);
+			createClass(mno);
 			break;
 		case 2:
 			// 2. 수강료 할인
-			discountFee();
+			discountFee(mno);
 			break;
-		case 3:
-			// 3. 지난 강좌 보기
-			pastClass();
 		case 0:
 			// 0. 홈으로가기
 			break;
@@ -112,7 +105,7 @@ public class ClassManager {
 	}
 
 	// 수강료 할인
-	private void discountFee() {
+	private void discountFee(int mno) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
@@ -124,7 +117,7 @@ public class ClassManager {
 
 			bitClass = new BitClass(0, title, discount);
 
-			int result = dao.editInfo(conn, bitClass);
+			int result = dao.editInfo(conn, bitClass, mno);
 
 			if (result > 0) {
 				System.out.println("입력 되었습니다.");
@@ -135,10 +128,5 @@ public class ClassManager {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-	}
-
-	// 지난 강좌 보기
-	private void pastClass() {
-
 	}
 }

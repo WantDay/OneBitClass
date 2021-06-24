@@ -54,6 +54,9 @@ public class HomeScreen {
 			System.out.println("프로그램 종료");
 			System.exit(0);
 			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
+			break;
 		}
 	}
 
@@ -86,12 +89,14 @@ public class HomeScreen {
 			System.out.println("신청");
 			break;
 		case 4:
-			classManager.showClass(num);
+			classManager.showClass(member.getMno());
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
 			System.exit(0);
 			break;
+		default:
+			System.out.println("올바른 숫자를 입력하세요.");
 		}
 	}
 }

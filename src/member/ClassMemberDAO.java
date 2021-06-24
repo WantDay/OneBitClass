@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -105,9 +106,10 @@ public class ClassMemberDAO {
 			
 			list = new ArrayList<>();
 			
-			// 데이터를 Dept 객체로 생성 -> list에 저장
 			while(rs.next()) {
-				list.add(new ClassMember(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),rs.getString(5),
+				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
+				list.add(new ClassMember(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+										format.format(rs.getDate(5)),
 										rs.getString(6), rs.getInt(7)));
 			}
 		} catch (SQLException e) {
