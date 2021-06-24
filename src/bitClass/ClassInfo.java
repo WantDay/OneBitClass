@@ -93,7 +93,13 @@ public class ClassInfo {
 
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
-		}
+		}	
+		System.out.println("-----------------------------------");
+		System.out.println("신청할 강좌의 번호를 입력해주세요");
+		int select = ir.readInteger();	
+		
+		payment(list.get(select-1), member);
+		
 	}
 
 	// 내 관심지역 강좌 보기
@@ -103,7 +109,13 @@ public class ClassInfo {
 
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
-		}
+		}	
+		System.out.println("-----------------------------------");
+		System.out.println("신청할 강좌의 번호를 입력해주세요");
+		int select = ir.readInteger();	
+		
+		payment(list.get(select-1), member);
+		
 	}
 
 	// 전체 강좌 보기
@@ -113,7 +125,13 @@ public class ClassInfo {
 
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
+				
 		}
+		System.out.println("-----------------------------------");
+		System.out.println("신청할 강좌의 번호를 입력해주세요");
+		int select = ir.readInteger();	
+		
+		payment(list.get(select-1), member);
 	}
 	
 	public String getMid() {

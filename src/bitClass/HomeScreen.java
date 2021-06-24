@@ -88,6 +88,7 @@ public class HomeScreen {
 			member.showMyInfo(manager);
 			break;
 		case 3:
+			classManager.showMyClassInfo(member);
 			break;
 		case 4:
 			classManager.showClass(member.getMno());

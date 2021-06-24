@@ -362,6 +362,7 @@ public class ClassDAO {
 			}
 		}
 		
+		// 수강 신청 후 데이터베이스에 정보 입력 
 		void enrollClass(Connection conn, BitClass bitClass, ClassMember member) {
 
 			int result = 0;
@@ -383,16 +384,21 @@ public class ClassDAO {
 				
 				pstmt.executeUpdate();
 				
-				String sql3 = "update classmember set mpoint = ? where mno = ?"; // 강사 요금 충전 후 갱신
+				String sql3 = "update classmember set mpoint = (mpoint + ?) where mno = ?"; // 강사 요금 충전 후 갱신
 				pstmt = conn.prepareStatement(sql3);
-				int income = bitClass.discountFee();
-				System.out.println(income);
-				int mno = bitClass.getMno();
-				System.out.println(mno);
-				pstmt.setInt(1, income);
-				pstmt.setInt(2, mno);
+				pstmt.setInt(1, bitClass.discountFee());
+				pstmt.setInt(2, bitClass.getMno());
 				
 				pstmt.executeUpdate();
+				
+				String sql4 = "insert into classorder values (classorder_orderno_seq.nextval, ?, ?, sysdate)";
+				pstmt = conn.prepareStatement(sql4);
+				pstmt.setInt(1, member.getMno());
+				pstmt.setInt(2, bitClass.getCno());
+				
+				pstmt.executeUpdate();
+				
+				
 				return;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -406,5 +412,55 @@ public class ClassDAO {
 				}
 			}
 
+		}
+		
+		// 내가 수강한 강좌 정보 가져오기
+		public ArrayList<BitClass> getMyClassInfo(Connection conn, ClassMember member) {
+
+			ArrayList<BitClass> list = null;
+
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+
+			try {
+				String sql = "select b.cno, b.mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
+						+ "from bitclass b, classorder c "
+						+ "where b.cno = c.cno and c.mno = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, member.getMno());
+
+				// 결과 받아오기
+				rs = pstmt.executeQuery();
+
+				list = new ArrayList<>();
+
+				while (rs.next()) {
+					list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
+							format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+							rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+			return list;
 		}
 }
