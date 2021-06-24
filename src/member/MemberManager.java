@@ -43,6 +43,9 @@ public class MemberManager {
 			System.out.println("선호하시는 지역을 입력해주세요.");
 			String mloc = ir.readString();
 
+			encryption = new Encryption(mpw.getBytes());
+			mpw = encryption.hashing();
+
 			member = new ClassMember(0, mid, mpw, mname, mdate, mloc);
 
 			int result = dao.createId(conn, member);
@@ -54,6 +57,8 @@ public class MemberManager {
 			}
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -75,6 +80,9 @@ public class MemberManager {
 			System.out.println("생년월일을 입력해주세요. ex)91/07/21");
 			String mdate = ir.readString();
 
+			encryption = new Encryption(mpw.getBytes());
+			mpw = encryption.hashing();
+
 			member = new ClassMember(mid, mpw, mloc, mdate);
 
 			int result = dao.editInfo(conn, member);
@@ -86,6 +94,8 @@ public class MemberManager {
 			}
 
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
