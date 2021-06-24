@@ -92,7 +92,7 @@ public class ClassInfo {
 		ArrayList<BitClass> list = classManager.getDeadLineClass();
 
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
+			System.out.println(i+1 + ". "+list.get(i));
 		}	
 		System.out.println("-----------------------------------");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
@@ -108,7 +108,7 @@ public class ClassInfo {
 		ArrayList<BitClass> list = classManager.getLocClass(member.getMloc());
 
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
+			System.out.println(i+1 + ". "+list.get(i));
 		}	
 		System.out.println("-----------------------------------");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
@@ -124,7 +124,7 @@ public class ClassInfo {
 		ArrayList<BitClass> list = classManager.takeClass();
 
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
+			System.out.println(i+1 + ". "+list.get(i));
 				
 		}
 		System.out.println("-----------------------------------");
