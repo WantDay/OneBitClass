@@ -1,4 +1,4 @@
-package onebitclass;
+package bitclass;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,16 +8,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ClassDAO {
+public class BitClassDAO {
 	private SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 
 	// 외부 클래스 또는 인스턴스에서 해당 클래스로 인스턴스를 생성하지 못하도록 처리
 
 	// 2. 클래스 내부에서 인스턴스를 만들고 메소드를 통해서 반환하도록 처리
-	static private ClassDAO dao = new ClassDAO();
+	static private BitClassDAO dao = new BitClassDAO();
 
 	// 3. 메소드를 통해서 반환 하도록 처리
-	public static ClassDAO getInstance() {
+	public static BitClassDAO getInstance() {
 		return dao;
 	}
 

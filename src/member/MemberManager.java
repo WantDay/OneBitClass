@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import bitClass.InputReader;
 import encryption.Encryption;
+import home.InputReader;
 
 public class MemberManager {
 
-	private ClassMemberDAO dao;
-	private ClassMember member;
+	private MemberDAO dao;
+	private Member member;
 	private InputReader ir;
 	private Encryption encryption;
 	Connection conn = null;
@@ -19,7 +19,7 @@ public class MemberManager {
 	String user = "hr";
 	String pw = "tiger";
 
-	public MemberManager(ClassMemberDAO dao) {
+	public MemberManager(MemberDAO dao) {
 		this.dao = dao;
 		ir = new InputReader();
 	}
@@ -46,7 +46,7 @@ public class MemberManager {
 			encryption = new Encryption(mpw.getBytes());
 			mpw = encryption.hashing();
 
-			member = new ClassMember(0, mid, mpw, mname, mdate, mloc);
+			member = new Member(0, mid, mpw, mname, mdate, mloc);
 
 			int result = dao.createId(conn, member);
 
@@ -81,7 +81,7 @@ public class MemberManager {
 			encryption = new Encryption(mpw.getBytes());
 			mpw = encryption.hashing();
 
-			member = new ClassMember(mid, mpw, mloc, mdate);
+			member = new Member(mid, mpw, mloc, mdate);
 
 			int result = dao.editInfo(conn, member);
 
@@ -100,11 +100,11 @@ public class MemberManager {
 	}
 
 	// 로그인 회원 관리
-	public ClassMember loginInfo(String mid) {
+	public Member loginInfo(String mid) {
 		try {
 
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			List<ClassMember> list = dao.getInfo(conn, mid);
+			List<Member> list = dao.getInfo(conn, mid);
 
 			member = list.get(0);
 

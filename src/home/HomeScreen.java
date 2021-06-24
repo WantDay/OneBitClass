@@ -1,13 +1,14 @@
-package bitClass;
+package home;
 
-import member.ClassMember;
-import member.ClassMemberDAO;
+import bitclass.BitClassDAO;
+import bitclass.BitClassInfo;
+import bitclass.BitClassManager;
+import member.Member;
+import member.MemberDAO;
 import member.MemberManager;
-import onebitclass.ClassDAO;
-import onebitclass.ClassManager;
 
 public class HomeScreen {
-	static ClassInfo classInfo = new ClassInfo();
+	static BitClassInfo classInfo = new BitClassInfo();
 	static public boolean isLogin = false;
 	static String mid;
 	static MemberManager manager;
@@ -23,7 +24,7 @@ public class HomeScreen {
 	}
 
 	static void nonMemHome() {
-		manager = new MemberManager(ClassMemberDAO.getInstance());
+		manager = new MemberManager(MemberDAO.getInstance());
 		Login login = new Login();
 		InputReader ir = new InputReader();
 
@@ -62,9 +63,9 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
-		manager = new MemberManager(ClassMemberDAO.getInstance());
-		ClassMember member = manager.loginInfo(mid);
-		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
+		manager = new MemberManager(MemberDAO.getInstance());
+		Member member = manager.loginInfo(mid);
+		BitClassManager classManager = new BitClassManager(BitClassDAO.getInstance());
 		InputReader ir = new InputReader();
 
 		System.out.println();

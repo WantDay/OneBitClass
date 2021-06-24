@@ -7,21 +7,21 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class ClassMemberDAO {
+public class MemberDAO {
 
 	// 외부 클래스 또는 인스턴스에서 해당 클래스로 인스턴스를 생성하지 못하도록 처리
 
 	// 2. 클래스 내부에서 인스턴스를 만들고 메소드를 통해서 반환하도록 처리
-	static private ClassMemberDAO dao = new ClassMemberDAO();
+	static private MemberDAO dao = new MemberDAO();
 
 	// 3. 메소드를 통해서 반환 하도록 처리
-	public static ClassMemberDAO getInstance() {
+	public static MemberDAO getInstance() {
 		return dao;
 	}
 
 	// 1. 회원 가입 기능
 
-	int createId(Connection conn, ClassMember member) { // 회원 가입
+	int createId(Connection conn, Member member) { // 회원 가입
 
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -54,7 +54,7 @@ public class ClassMemberDAO {
 	}
 
 	// 2. 회원 정보 수정
-	int editInfo(Connection conn, ClassMember member) {
+	int editInfo(Connection conn, Member member) {
 
 		int result = 0;
 
@@ -85,9 +85,9 @@ public class ClassMemberDAO {
 	}
 
 	// 3. 회원 정보 보기
-	ArrayList<ClassMember> getInfo(Connection conn, String mid) {
+	ArrayList<Member> getInfo(Connection conn, String mid) {
 
-		ArrayList<ClassMember> list = null;
+		ArrayList<Member> list = null;
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -104,7 +104,7 @@ public class ClassMemberDAO {
 
 			while (rs.next()) {
 				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
-				list.add(new ClassMember(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+				list.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), rs.getString(6), rs.getInt(7)));
 			}
 		} catch (SQLException e) {
@@ -130,7 +130,7 @@ public class ClassMemberDAO {
 	}
 
 	// 회원 탈퇴 기능
-	int deleteId(Connection conn, ClassMember member) {
+	int deleteId(Connection conn, Member member) {
 
 		int result = 0;
 
@@ -158,7 +158,7 @@ public class ClassMemberDAO {
 	}
 
 	// 2. 포인트 수정
-	int editPoint(Connection conn, ClassMember member) {
+	int editPoint(Connection conn, Member member) {
 
 		int result = 0;
 

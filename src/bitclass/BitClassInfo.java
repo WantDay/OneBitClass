@@ -1,18 +1,18 @@
-package bitClass;
+package bitclass;
 
 import java.util.ArrayList;
 
-import member.ClassMember;
-import onebitclass.BitClass;
-import onebitclass.ClassDAO;
-import onebitclass.ClassManager;
+import home.HomeScreen;
+import home.InputReader;
+import home.Login;
+import member.Member;
 
-public class ClassInfo {
-	private ClassManager classManager;
+public class BitClassInfo {
+	private BitClassManager classManager;
 	private InputReader ir;
 	private String mid;
 
-	public void classMenu(ClassMember member) {
+	public void classMenu(Member member) {
 		Login login = new Login();
 		ir = new InputReader();
 
@@ -72,7 +72,7 @@ public class ClassInfo {
 
 	// 할인 강좌 보기
 	void showDiscountClasses() {
-		classManager = new ClassManager(ClassDAO.getInstance());
+		classManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getDiscountClass();
 
 		for (int i = 0; i < list.size(); i++) {
@@ -82,7 +82,7 @@ public class ClassInfo {
 
 	// 마감임박 강좌 보기
 	void showDeadlineClasses() {
-		classManager = new ClassManager(ClassDAO.getInstance());
+		classManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getDeadLineClass();
 
 		for (int i = 0; i < list.size(); i++) {
@@ -92,7 +92,7 @@ public class ClassInfo {
 
 	// 내 관심지역 강좌 보기
 	void showLocalClasses(String mloc) {
-		classManager = new ClassManager(ClassDAO.getInstance());
+		classManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getLocClass(mloc);
 
 		for (int i = 0; i < list.size(); i++) {
@@ -102,7 +102,7 @@ public class ClassInfo {
 
 	// 전체 강좌 보기
 	void showTakeClass() {
-		classManager = new ClassManager(ClassDAO.getInstance());
+		classManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.takeClass();
 
 		for (int i = 0; i < list.size(); i++) {
