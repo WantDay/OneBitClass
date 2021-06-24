@@ -60,17 +60,18 @@ public class ClassDAO {
 
 	// 2. 강좌 할인 적용
 
-	int editInfo(Connection conn, BitClass bitClass) {
+	int editInfo(Connection conn, BitClass bitClass, int mno) {
 
 		int result = 0;
 
 		PreparedStatement pstmt = null;
 
 		try {
-			String sql = "update bitclass set discount = ? where title=?";
+			String sql = "update bitclass set discount = ? where title=? and mno = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bitClass.getDiscount());
 			pstmt.setString(2, bitClass.getTitle());
+			pstmt.setInt(3, mno);
 
 			result = pstmt.executeUpdate();
 
@@ -111,7 +112,7 @@ public class ClassDAO {
 				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
-						rs.getFloat(9), rs.getInt(10),rs.getInt(12)));
+						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
 			Iterator<BitClass> itr = list.iterator();
 			while(itr.hasNext()) {

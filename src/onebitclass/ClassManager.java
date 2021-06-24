@@ -59,7 +59,7 @@ public class ClassManager {
 			break;
 		case 2:
 			// 2. 수강료 할인
-			discountFee();
+			discountFee(mno);
 			break;
 		case 0:
 			// 0. 홈으로가기
@@ -105,7 +105,7 @@ public class ClassManager {
 	}
 
 	// 수강료 할인
-	private void discountFee() {
+	private void discountFee(int mno) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
@@ -117,7 +117,7 @@ public class ClassManager {
 
 			bitClass = new BitClass(0, title, discount);
 
-			int result = dao.editInfo(conn, bitClass);
+			int result = dao.editInfo(conn, bitClass, mno);
 
 			if (result > 0) {
 				System.out.println("입력 되었습니다.");
