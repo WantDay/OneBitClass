@@ -141,6 +141,6 @@ public class BitClass {
 	@Override
 	public String toString() {
 		return getTitle() + "\t " + getCloc() + "\t " + Math.round(getFee() * (1 - getDiscount() * 0.01)) + "\t " + getStartDate()
-				+ "\t " + getEndDate();
+				+ "\t " + getEndDate() + "\t" + getEnroll() + "/" + getNumPeople();
 	}
 }

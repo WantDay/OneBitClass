@@ -1,117 +1,111 @@
 package bitClass;
 
+import java.util.ArrayList;
+
+import onebitclass.BitClass;
+import onebitclass.ClassDAO;
+import onebitclass.ClassManager;
+
 public class ClassInfo {
+	private ClassManager classManager;
 	private InputReader ir;
 	public String mid;
 
-	public void classMenu() {
+	public void classMenu(String mloc) {
 		Login login = new Login();
 		ir = new InputReader();
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
-			while (true) {
-				System.out.println();
-				System.out.println("강좌 정보");
-				System.out.println("------------------");
-				System.out.println("1. 할인 중인 강좌");
-				System.out.println("2. 마감 임박 강좌");
-				System.out.println("3. 지역 근처 강좌");
-				System.out.println("4. 분류별 강좌");
-				if (HomeScreen.isLogin) {
-					System.out.println("9. 로그아웃");
-				} else {
-					System.out.println("9. 로그인");
-				}
-				System.out.println("0. 홈으로 가기");
-				System.out.println("------------------");
-				System.out.print("번호 입력 : ");
-				int select = ir.readInteger();
-
-				switch (select) {
-				case 1:
-					showDiscountClasses();
-					break;
-				case 2:
-					showDeadlineClasses();
-					break;
-				case 3:
-					showLocalClasses();
-					break;
-				case 4:
-					showClassification();
-					break;
-				case 9:
-					if (HomeScreen.isLogin) {
-						HomeScreen.isLogin = false;
-					} else {
-						HomeScreen.isLogin = login.userLogin();
-						mid = login.mid;
-					}  
-					break;
-				case 0:
-					break;
-				default:
-					System.out.println("올바른 숫자를 입력하세요.");
-					break;
-				}
+			System.out.println();
+			System.out.println("강좌 정보");
+			System.out.println("------------------");
+			System.out.println("1. 전체 강좌");
+			System.out.println("2. 할인 중인 강좌");
+			System.out.println("3. 마감 임박 강좌");
+			if (HomeScreen.isLogin) {
+				System.out.println("4. 지역 근처 강좌");
 			}
+			if (HomeScreen.isLogin) {
+				System.out.println("9. 로그아웃");
+			} else {
+				System.out.println("9. 로그인");
+			}
+			System.out.println("0. 홈으로 가기");
+			System.out.println("------------------");
+			System.out.print("번호 입력 : ");
+			int select = ir.readInteger();
+
+			switch (select) {
+			case 1:
+				showTakeClass();
+				break;
+			case 2:
+				showDiscountClasses();
+				break;
+			case 3:
+				showDeadlineClasses();
+				break;
+			case 4:
+				showLocalClasses(mloc);
+				break;
+			case 9:
+				if (HomeScreen.isLogin) {
+					HomeScreen.isLogin = false;
+				} else {
+					HomeScreen.isLogin = login.userLogin();
+					mid = login.mid;
+				}
+				break;
+			case 0:
+				break;
+			default:
+				System.out.println("올바른 숫자를 입력하세요.");
+				break;
+			}
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		} /*catch (SQLException e) {
-			e.printStackTrace();
-			}*/
+		}
+	}
 
+	// 전체 강좌 보기
+	void showTakeClass() {
+		classManager = new ClassManager(ClassDAO.getInstance());
+		ArrayList<BitClass> list = classManager.takeClass();
+
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
 
 	void showDiscountClasses() {
-		// dao로 강좌 리스트 받아오기
-		// 할인 중인 강좌를 할인 순으로 정렬
+		classManager = new ClassManager(ClassDAO.getInstance());
+		ArrayList<BitClass> list = classManager.getDiscountClass();
 
-		// ArrayList<Class> classes = getClasses();
-		// for (Class c : classes) {
-		System.out.println("\n할인");
-		// }
-
-		// selectClass(classes);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
 
 	// 마감임박 강좌 보기
 	void showDeadlineClasses() {
-		// dao로 강좌 리스트 받아오기
-		// 마감 임박인 강좌를 마감이 남은 일자가 작은 순으로 정렬
+		classManager = new ClassManager(ClassDAO.getInstance());
+		ArrayList<BitClass> list = classManager.getDeadLineClass();
 
-		// ArrayList<Class> classes = getClasses();
-		// for (Class c : classes) {
-		System.out.println("\n마감");
-		// }
-
-		// selectClass(classes);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
 
 	// 내 관심지역 강좌 보기
-	void showLocalClasses() {
-		// dao로 강좌 리스트 받아오기
-		// 자신의 관심지역과 같은 지역을 가나다 순으로 정렬
+	void showLocalClasses(String mloc) {
+		classManager = new ClassManager(ClassDAO.getInstance());
+		ArrayList<BitClass> list = classManager.getLocClass(mloc);
 
-		// ArrayList<Class> classes = getClasses();
-		// for (Class c : classes) {
-		System.out.println("\n지역");
-		// }
-
-		// selectClass(classes);
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println(list.get(i));
+		}
 	}
-
-	// 분류 보기
-	void showClassification() {
-		// // dao로 분류 정보 받기
-		// ArrayList<String> classification = new ArrayList<String>();
-		//
-		// for (int i = 0; i < classification.size(); i++) {
-		// System.out.println(i + 1 + "번. " + classification.get(i));
-		// }
-		System.out.println("\n분류");
-	}
-
 }

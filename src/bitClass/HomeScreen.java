@@ -22,7 +22,6 @@ public class HomeScreen {
 		}
 	}
 
-
 	static void nonMemHome() {
 		manager = new MemberManager(ClassMemberDAO.getInstance());
 		Login login = new Login();
@@ -42,8 +41,8 @@ public class HomeScreen {
 
 		switch (num) {
 		case 1:
-			classInfo.classMenu();
-			mid =classInfo.mid;
+			classInfo.classMenu(null);
+			mid = classInfo.mid;
 			break;
 		case 2:
 			isLogin = login.userLogin();
@@ -78,12 +77,12 @@ public class HomeScreen {
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
-		
+
 		int num = ir.readInteger();
 
 		switch (num) {
 		case 1:
-			classInfo.classMenu();
+			classInfo.classMenu(member.getMloc());
 			break;
 		case 2:
 			manager.showMyInfo(mid);
@@ -98,7 +97,7 @@ public class HomeScreen {
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
-			
+
 			break;
 		default:
 			System.out.println("올바른 숫자를 입력하세요.");

@@ -25,7 +25,7 @@ public class MemberManager {
 	// 회원 가입
 	// 사용자에게 Scanner 클래스로 입력 받아 ->
 	// dao ClassMemberDAO 메소드로 저장
-	void createId() {
+	public void createId() {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 

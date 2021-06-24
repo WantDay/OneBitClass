@@ -3,6 +3,7 @@ package onebitclass;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import bitClass.HomeScreen;
@@ -30,8 +31,18 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작날짜" + "\t" +"종료날짜");
-			System.out.println("-------------------------------------------------");
+			System.out.println("강좌명"	+ "\t"
+								+ "지역"
+								+ "\t"
+								+ "수강료"
+								+ "\t"
+								+ "시작 날짜"
+								+ "\t"
+								+ "종료 날짜"
+								+ "\t"
+								+ "수강 인원");
+			System.out.println(
+					"--------------------------------------------------------------------");
 			List<BitClass> list = dao.getInfo(conn, mno);
 			System.out.println();
 
@@ -134,5 +145,65 @@ public class ClassManager {
 			System.out.println(e);
 			e.printStackTrace();
 		}
+	}
+
+	// 전체 강좌 정보 멤버 객체 생성
+
+	public ArrayList<BitClass> takeClass() {
+		ArrayList<BitClass> list = null;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+
+			list = dao.getTakeClass(conn);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 할인 강좌 정보 멤버 객체 생성
+
+	public ArrayList<BitClass> getDiscountClass() {
+		ArrayList<BitClass> list = null;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+
+			list = dao.getDiscountClass(conn);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 내 지역 주변 강좌 보기
+
+	public ArrayList<BitClass> getLocClass(String mloc) {
+		ArrayList<BitClass> list = null;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+
+			list = dao.getLocClass(conn, mloc);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 마감 임박 강좌 보기 (일주일 이내)
+
+	public ArrayList<BitClass> getDeadLineClass() {
+		ArrayList<BitClass> list = null;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+
+			list = dao.getDeadLineClass(conn);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
