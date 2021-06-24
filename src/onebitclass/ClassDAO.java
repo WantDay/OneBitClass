@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
 public class ClassDAO {
+	private SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 
 	// 외부 클래스 또는 인스턴스에서 해당 클래스로 인스턴스를 생성하지 못하도록 처리
 
@@ -109,18 +109,17 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
 			Iterator<BitClass> itr = list.iterator();
-			while(itr.hasNext()) {
-				BitClass bc = (BitClass)itr.next();
+			while (itr.hasNext()) {
+				BitClass bc = (BitClass) itr.next();
 				System.out.print(bc);
 				System.out.println();
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -141,6 +140,195 @@ public class ClassDAO {
 				}
 			}
 
+		}
+
+		return list;
+	}
+
+	// 4. 전체 강좌 정보 가져오기
+	public ArrayList<BitClass> getTakeClass(Connection conn) {
+
+		ArrayList<BitClass> list = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from bitclass";
+			pstmt = conn.prepareStatement(sql);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return list;
+	}
+
+	// 4. 할인 강좌 정보 가져오기
+	public ArrayList<BitClass> getDiscountClass(Connection conn) {
+
+		ArrayList<BitClass> list = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from bitclass where discount > 0 order by discount";
+			pstmt = conn.prepareStatement(sql);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return list;
+	}
+
+	// 5. 지역 강좌 정보 가져오기
+	public ArrayList<BitClass> getLocClass(Connection conn, String loc) {
+
+		ArrayList<BitClass> list = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from bitclass where cloc = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, loc);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return list;
+	}
+
+	// 6. 마감 임박 강좌 정보 가져오기
+	public ArrayList<BitClass> getDeadLineClass(Connection conn) {
+
+		ArrayList<BitClass> list = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate)";
+			pstmt = conn.prepareStatement(sql);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		return list;
