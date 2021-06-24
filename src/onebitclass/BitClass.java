@@ -136,10 +136,14 @@ public class BitClass {
 		this.title = title;
 		this.discount = discount;
 	}
+	
+	public int discountFee() {
+		return (int)(Math.round(getFee() * (1 - getDiscount() * 0.01)));
+	}
 
 	@Override
 	public String toString() {
-		return getTitle() + "\t " + getCloc() + "\t " + Math.round(getFee() * (1 - getDiscount() * 0.01)) + "\t " + getStartDate()
-				+ "\t " + getEndDate();
+		return getTitle() + "\t " + getCloc() + "\t " + discountFee() + "\t " + getStartDate()
+				+ "\t " + getEndDate() + "\t" + getEnroll() + "/" + getNumPeople();
 	}
 }

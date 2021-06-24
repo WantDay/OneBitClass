@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import encryption.Encryption;
 
 public class Login {
-	public String mid;
+	private String mid;
 	private String mpw;
 	private Encryption encryption;
 	
@@ -84,5 +84,13 @@ public class Login {
 			}
 		}
 		return false;
+	}
+	
+	public String getMid() {
+		return mid;
+	}
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
 }

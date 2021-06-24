@@ -65,14 +65,12 @@ public class MemberManager {
 	}
 	// 회원 정보 수정
 
-	void editId() {
+	public void editId(String mid) {
 
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("회원 정보를 수정합니다.");
-			System.out.println("ID를 다시 한 번 입력해주세요.");
-			String mid = ir.readString();
 			System.out.println("수정하실 PW를 입력해주세요. 변경을 원치 않을 경우 기존 정보를 입력해주세요.");
 			String mpw = ir.readString();
 			System.out.println("지역을 입력해주세요. 변경을 원치 않을 경우 기존 정보를 입력해주세요.");

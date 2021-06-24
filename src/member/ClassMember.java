@@ -140,7 +140,7 @@ public class ClassMember {
 
 	// 내 정보 수정
 	private void updateMyInfo(MemberManager manager) {
-		manager.editId();
+		manager.editId(mid);
 	}
 
 	// 회원 탈퇴
@@ -154,7 +154,7 @@ public class ClassMember {
 
 		System.out.println("1. 포인트 충전");
 		System.out.println("2. 포인트 인출");
-		
+
 		InputReader ir = new InputReader();
 		int select = ir.readInteger();
 
@@ -187,12 +187,17 @@ public class ClassMember {
 		System.out.println("충전 하실 금액을 입력해주세요.");
 		InputReader ir = new InputReader();
 		int charge = ir.readInteger();
-		this.mpoint += charge;
+		if (charge > 0) {
+			this.mpoint += charge;
 
-		manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
-		
-		System.out.println("충전 완료!");
-		System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
+			manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
+
+			System.out.println("충전 완료!");
+			System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
+		} else {
+			System.out.println("포인트는 최소 1원 이상 가능합니다.");
+
+		}
 	}
 
 	// 포인트 인출
@@ -200,13 +205,20 @@ public class ClassMember {
 		System.out.println("인출 하실 금액을 입력해주세요.");
 		InputReader ir = new InputReader();
 		int withdrawal = ir.readInteger();
-		this.mpoint -= withdrawal;
-		
-		manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
-		
-		System.out.println("인출 완료!");
-		System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
+		if (withdrawal >= 100 && withdrawal <= mpoint) {
+			this.mpoint -= withdrawal;
+			manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
 
+			System.out.println("인출 완료!");
+			System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
+
+		} else if (withdrawal > mpoint) {
+			System.out.println("남은 포인트보다 더 많이 출금할 수 없습니다.");
+		} else if (withdrawal < 100) {
+			System.out.println("포인트는 100점 이상부터 출금이 가능합니다.");
+		} else {
+			System.out.println("포인트 입력 오류입니다. 다시 입력해 주세요.");
+		}
 	}
 
 	// 포인트 정산

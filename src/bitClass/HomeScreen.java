@@ -41,11 +41,12 @@ public class HomeScreen {
 
 		switch (num) {
 		case 1:
-			classInfo.classMenu();
+			classInfo.classMenu(null);
+			mid = classInfo.getMid();
 			break;
 		case 2:
 			isLogin = login.userLogin();
-			mid = login.mid;
+			mid = login.getMid();
 			break;
 		case 3:
 			manager.createId();
@@ -73,6 +74,7 @@ public class HomeScreen {
 		System.out.println("2. 내 정보");
 		System.out.println("3. 신청한 강좌");
 		System.out.println("4. 등록한 강좌");
+		System.out.println("9. 로그아웃");
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
@@ -80,16 +82,18 @@ public class HomeScreen {
 
 		switch (num) {
 		case 1:
-			classInfo.classMenu(member.getMloc());
+			classInfo.classMenu(member);
 			break;
 		case 2:
 			member.showMyInfo(manager);
 			break;
 		case 3:
-			System.out.println("신청");
 			break;
 		case 4:
 			classManager.showClass(member.getMno());
+			break;
+		case 9:
+			isLogin = false;
 			break;
 		case 0:
 			System.out.println("프로그램 종료");

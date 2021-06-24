@@ -30,8 +30,8 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-			// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
-			System.out.println("-------------------------------------------------");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
 			List<BitClass> list = dao.getInfo(conn, mno);
 			System.out.println();
 
@@ -138,6 +138,10 @@ public class ClassManager {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
+			System.out.println("\n전체 강좌");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+
 			list = dao.getTakeClass(conn);
 			return list;
 		} catch (SQLException e) {
@@ -153,22 +157,11 @@ public class ClassManager {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
+			System.out.println("\n할인 강좌");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+
 			list = dao.getDiscountClass(conn);
-			return list;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	// 내 지역 주변 강좌 보기
-
-	public ArrayList<BitClass> getLocClass(String mloc) {
-		ArrayList<BitClass> list = null;
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-
-			list = dao.getLocClass(conn, mloc);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -183,7 +176,30 @@ public class ClassManager {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
+			System.out.println("\n마감 임박 강좌");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+
 			list = dao.getDeadLineClass(conn);
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	// 내 지역 주변 강좌 보기
+
+	public ArrayList<BitClass> getLocClass(String mloc) {
+		ArrayList<BitClass> list = null;
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+
+			System.out.println("\n마감 임박 강좌");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+
+			list = dao.getLocClass(conn, mloc);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
