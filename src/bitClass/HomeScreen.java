@@ -80,7 +80,7 @@ public class HomeScreen {
 
 		switch (num) {
 		case 1:
-			classInfo.classMenu();
+			classInfo.classMenu(member.getMloc());
 			break;
 		case 2:
 			member.showMyInfo(manager);
