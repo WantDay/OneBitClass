@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bitClass.InputReader;
+import member.ClassMember;
 
 public class ClassManager {
 
@@ -205,5 +206,18 @@ public class ClassManager {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	public void enrollClass(BitClass bitClass, ClassMember member) {
+		
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			dao.enrollClass(conn, bitClass, member);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

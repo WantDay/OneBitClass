@@ -40,16 +40,16 @@ public class ClassInfo {
 
 			switch (select) {
 			case 1:
-				showTakeClass();
+				showTakeClass(member);
 				break;
 			case 2:
-				showDiscountClasses();
+				showDiscountClasses(member);
 				break;
 			case 3:
-				showDeadlineClasses();
+				showDeadlineClasses(member);
 				break;
 			case 4:
-				showLocalClasses(member.getMloc());
+				showLocalClasses(member);
 				break;
 			case 0:
 				break;
@@ -71,17 +71,23 @@ public class ClassInfo {
 	}
 
 	// 할인 강좌 보기
-	void showDiscountClasses() {
+	void showDiscountClasses(ClassMember member) {
 		classManager = new ClassManager(ClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getDiscountClass();
 
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(list.get(i));
+			System.out.println(i+1 + ". " +list.get(i));
+
 		}
+		System.out.println("-----------------------------------");
+		System.out.println("신청할 강좌의 번호를 입력해주세요");
+		int select = ir.readInteger();	
+		
+		payment(list.get(select-1), member);
 	}
 
 	// 마감임박 강좌 보기
-	void showDeadlineClasses() {
+	void showDeadlineClasses(ClassMember member) {
 		classManager = new ClassManager(ClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.getDeadLineClass();
 
@@ -91,9 +97,9 @@ public class ClassInfo {
 	}
 
 	// 내 관심지역 강좌 보기
-	void showLocalClasses(String mloc) {
+	void showLocalClasses(ClassMember member) {
 		classManager = new ClassManager(ClassDAO.getInstance());
-		ArrayList<BitClass> list = classManager.getLocClass(mloc);
+		ArrayList<BitClass> list = classManager.getLocClass(member.getMloc());
 
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i));
@@ -101,7 +107,7 @@ public class ClassInfo {
 	}
 
 	// 전체 강좌 보기
-	void showTakeClass() {
+	void showTakeClass(ClassMember member) {
 		classManager = new ClassManager(ClassDAO.getInstance());
 		ArrayList<BitClass> list = classManager.takeClass();
 
@@ -117,4 +123,20 @@ public class ClassInfo {
 	public void setMid(String mid) {
 		this.mid = mid;
 	}
+	
+	// 강좌 신청하는 클래스
+	void payment(BitClass bitClass, ClassMember member) {
+		int point = member.getMpoint(); 
+		int fee = bitClass.discountFee();
+		int mPoint = point - fee; // 결제 후 남은 잔액
+		member.setMpoint(mPoint);
+		System.out.println("신청이 완료되었습니다.");
+		System.out.println("현재 남은 포인트 : " + member.getMpoint());
+
+		bitClass.setEnroll(bitClass.getEnroll()+1);
+
+		classManager = new ClassManager(ClassDAO.getInstance());
+		classManager.enrollClass(bitClass, member);
+	
+	} 
 }

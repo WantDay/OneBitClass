@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import member.ClassMember;
+
 public class ClassDAO {
 	private SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 
@@ -109,7 +111,7 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
@@ -163,7 +165,7 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
@@ -210,7 +212,7 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
@@ -258,7 +260,7 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
@@ -305,7 +307,7 @@ public class ClassDAO {
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
@@ -333,4 +335,76 @@ public class ClassDAO {
 
 		return list;
 	}
+	
+	// 수강인원을 추가하는 메소드 
+		public void countMember(Connection conn, BitClass bitClass) {
+
+			PreparedStatement pstmt = null;
+
+			try {
+				String sql = "update bitclass set enroll = ? where title=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bitClass.getEnroll());
+				pstmt.setString(2, bitClass.getTitle());
+
+				pstmt.executeUpdate();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		void enrollClass(Connection conn, BitClass bitClass, ClassMember member) {
+
+			int result = 0;
+
+			PreparedStatement pstmt = null;
+
+			try {
+				String sql = "update bitclass set enroll = ? where title=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bitClass.getEnroll());
+				pstmt.setString(2, bitClass.getTitle());
+				
+				pstmt.executeUpdate();
+
+				String sql2 = "update classmember set mpoint = ? where mno=?"; // 수강생 요금 차감 후 갱신
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setInt(1, member.getMpoint());
+				pstmt.setInt(2, member.getMno());
+				
+				pstmt.executeUpdate();
+				
+				String sql3 = "update classmember set mpoint = ? where mno = ?"; // 강사 요금 충전 후 갱신
+				pstmt = conn.prepareStatement(sql3);
+				int income = bitClass.discountFee();
+				System.out.println(income);
+				int mno = bitClass.getMno();
+				System.out.println(mno);
+				pstmt.setInt(1, income);
+				pstmt.setInt(2, mno);
+				
+				pstmt.executeUpdate();
+				return;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+
+		}
 }
