@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
 public class ClassDAO {
 
 	// 외부 클래스 또는 인스턴스에서 해당 클래스로 인스턴스를 생성하지 못하도록 처리
@@ -110,16 +109,74 @@ public class ClassDAO {
 			while (rs.next()) {
 				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
 				list.add(new BitClass(rs.getInt(2), rs.getInt(1), rs.getString(3), rs.getString(4),
+<<<<<<< Updated upstream
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10),rs.getInt(12)));
+=======
+						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7),
+						rs.getInt(8), rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+>>>>>>> Stashed changes
 			}
 			Iterator<BitClass> itr = list.iterator();
-			while(itr.hasNext()) {
-				BitClass bc = (BitClass)itr.next();
+			while (itr.hasNext()) {
+				BitClass bc = (BitClass) itr.next();
 				System.out.print(bc);
 				System.out.println();
 			}
-			
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return list;
+	}
+	// 4. 신청한 강좌 정보 가져오기
+	public ArrayList<BitClass> getInfo2(Connection conn, int mno) {
+
+		ArrayList<BitClass> list = null;
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "select * from classorder where mno = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mno);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
+				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getInt(3), format.format(rs.getDate(4))));
+			}
+			Iterator<BitClass> itr = list.iterator();
+			while (itr.hasNext()) {
+				BitClass bc = (BitClass) itr.next();
+				System.out.print(bc);
+				System.out.println();
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 

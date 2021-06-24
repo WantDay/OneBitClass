@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import bitClass.HomeScreen;
 import bitClass.InputReader;
 
 public class ClassManager {
@@ -29,7 +30,7 @@ public class ClassManager {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
-			// System.out.println("강좌명, 지역, 가격(할인 있으면 할인가 없으면 기본), 시작날짜, 종료날짜 ");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작날짜" + "\t" +"종료날짜");
 			System.out.println("-------------------------------------------------");
 			List<BitClass> list = dao.getInfo(conn, mno);
 			System.out.println();
@@ -42,6 +43,7 @@ public class ClassManager {
 		System.out.println();
 		System.out.println("1. 강좌 개설");
 		System.out.println("2. 수강료 할인");
+		System.out.println("9. 로그아웃");
 		System.out.println("0. 홈으로 가기");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
@@ -61,11 +63,15 @@ public class ClassManager {
 			// 2. 수강료 할인
 			discountFee();
 			break;
+		case 9:
+			HomeScreen.isLogin = false;
+			break;
 		case 0:
 			// 0. 홈으로가기
 			break;
 		default:
-			System.out.println("올바른 숫자를 입력하세요.");
+			System.out.println("올바른 숫자를 입력하세요.\n");
+			showClass(mno);
 			break;
 		}
 	}

@@ -21,6 +21,7 @@ public class InputReader {
 	}
 
 	public int readInteger() {
+
 		return Integer.parseInt(readString());
 	}
 }

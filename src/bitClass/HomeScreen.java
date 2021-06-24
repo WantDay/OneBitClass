@@ -7,6 +7,7 @@ import member.ClassMemberDAO;
 import member.MemberManager;
 import onebitclass.ClassDAO;
 import onebitclass.ClassManager;
+import onebitclass.OrderClass;
 
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
@@ -46,6 +47,7 @@ public class HomeScreen {
 		switch (num) {
 		case 1:
 			classInfo.classMenu();
+			mid =classInfo.mid;
 			break;
 		case 2:
 			isLogin = login.userLogin();
@@ -64,11 +66,19 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
+<<<<<<< Updated upstream
 		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
 		member = manager.loginInfo(mid);
 		ClassManager manager2 = new ClassManager(ClassDAO.getInstance());
 		
 		Scanner sc = new Scanner(System.in);
+=======
+		manager = new MemberManager(ClassMemberDAO.getInstance());
+		ClassMember member = manager.loginInfo(mid);
+		OrderClass orderClass = new OrderClass(ClassDAO.getInstance());
+		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
+		InputReader ir = new InputReader();
+>>>>>>> Stashed changes
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -77,6 +87,7 @@ public class HomeScreen {
 		System.out.println("2. 내 정보");
 		System.out.println("3. 신청한 강좌");
 		System.out.println("4. 등록한 강좌");
+		System.out.println("9. 로그아웃");
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
@@ -90,10 +101,13 @@ public class HomeScreen {
 			manager.showMyInfo(mid);
 			break;
 		case 3:
-			System.out.println("신청");
+			orderClass.showClass2(member.getMno());
 			break;
 		case 4:
 			manager2.showClass(member.getMno());
+			break;
+		case 9:
+			isLogin = false;
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
