@@ -16,9 +16,6 @@ public class BitClass {
 	private float rate; // 평점
 	private int numPeople; // 최대 수강 인원
 	private int enroll; // 현재 수강인원
-
-	private int orderno;
-	private String orderdate;
 	
 	public int getCno() {
 		return cno;
@@ -140,41 +137,10 @@ public class BitClass {
 		this.discount = discount;
 	}
 
-<<<<<<< Updated upstream
-
-	@Override
-	public String toString() {
-		return getTitle() + "\t "+ getCloc() + "\t " + getFee()*(1-getDiscount()*0.01)
-				+ "\t "	+ getStartDate() + "\t " + getEndDate();
-}
-=======
-	public BitClass(int orderno, int mno, int cno, String orderdate) {
-		this.setOrderno(orderno);
-		this.mno = mno;
-		this.cno = cno;
-		this.orderdate = orderdate;
-	}
 
 	@Override
 	public String toString() {
 		return getTitle() + "\t " + getCloc() + "\t " + Math.round(getFee() * (1 - getDiscount() * 0.01)) + "\t " + getStartDate()
 				+ "\t " + getEndDate();
 	}
-
-	public int getOrderno() {
-		return orderno;
-	}
-
-	public void setOrderno(int orderno) {
-		this.orderno = orderno;
-	}
-
-	public String getOrderdate() {
-		return orderdate;
-	}
-
-	public void setOrderdate(String orderdate) {
-		this.orderdate = orderdate;
-	}
->>>>>>> Stashed changes
 }

@@ -1,16 +1,5 @@
 package bitClass;
 
-<<<<<<< Updated upstream
-import java.util.Scanner;
-
-import onebitclass.ClassDAO;
-import onebitclass.ClassManager;
-
-public class ClassInfo {
-	public void classMenu() {
-		ClassManager manager = new ClassManager(ClassDAO.getInstance());
-		Scanner sc = new Scanner(System.in);
-=======
 public class ClassInfo {
 	private InputReader ir;
 	public String mid;
@@ -18,12 +7,10 @@ public class ClassInfo {
 	public void classMenu() {
 		Login login = new Login();
 		ir = new InputReader();
->>>>>>> Stashed changes
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
-<<<<<<< Updated upstream
 			while (true) {
 				System.out.println();
 				System.out.println("강좌 정보");
@@ -32,10 +19,15 @@ public class ClassInfo {
 				System.out.println("2. 마감 임박 강좌");
 				System.out.println("3. 지역 근처 강좌");
 				System.out.println("4. 분류별 강좌");
+				if (HomeScreen.isLogin) {
+					System.out.println("9. 로그아웃");
+				} else {
+					System.out.println("9. 로그인");
+				}
 				System.out.println("0. 홈으로 가기");
 				System.out.println("------------------");
 				System.out.print("번호 입력 : ");
-				int select = Integer.parseInt(sc.nextLine());
+				int select = ir.readInteger();
 
 				switch (select) {
 				case 1:
@@ -50,57 +42,20 @@ public class ClassInfo {
 				case 4:
 					showClassification();
 					break;
+				case 9:
+					if (HomeScreen.isLogin) {
+						HomeScreen.isLogin = false;
+					} else {
+						HomeScreen.isLogin = login.userLogin();
+						mid = login.mid;
+					}  
+					break;
 				case 0:
 					break;
 				default:
 					System.out.println("올바른 숫자를 입력하세요.");
 					break;
 				}
-=======
-			System.out.println();
-			System.out.println("강좌 정보");
-			System.out.println("------------------");
-			System.out.println("1. 할인 중인 강좌");
-			System.out.println("2. 마감 임박 강좌");
-			System.out.println("3. 지역 근처 강좌");
-			System.out.println("4. 분류별 강좌");
-			if (HomeScreen.isLogin) {
-				System.out.println("9. 로그아웃");
-			} else {
-				System.out.println("9. 로그인");
-			}
-			System.out.println("0. 홈으로 가기");
-			System.out.println("------------------");
-			System.out.print("번호 입력 : ");
-			int select = ir.readInteger();
-
-			switch (select) {
-			case 1:
-				showDiscountClasses();
-				break;
-			case 2:
-				showDeadlineClasses();
-				break;
-			case 3:
-				showLocalClasses();
-				break;
-			case 4:
-				showClassification();
-				break;
-			case 9:
-				if (HomeScreen.isLogin) {
-					HomeScreen.isLogin=false;
-				} else {
-					HomeScreen.isLogin = login.userLogin();
-					mid=login.mid;
-				}
-				break;
-			case 0:
-				break;
-			default:
-				System.out.println("올바른 숫자를 입력하세요.");
-				break;
->>>>>>> Stashed changes
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

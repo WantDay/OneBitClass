@@ -1,20 +1,16 @@
 package bitClass;
 
-import java.util.Scanner;
-
 import member.ClassMember;
 import member.ClassMemberDAO;
 import member.MemberManager;
 import onebitclass.ClassDAO;
 import onebitclass.ClassManager;
-import onebitclass.OrderClass;
 
 public class HomeScreen {
 	static ClassInfo classInfo = new ClassInfo();
-	static boolean isLogin = false;
-	static ClassMember member;
-
+	static public boolean isLogin = false;
 	static String mid;
+	static MemberManager manager;
 
 	public static void main(String[] args) {
 		while (true) {
@@ -26,11 +22,11 @@ public class HomeScreen {
 		}
 	}
 
-	static void nonMemHome() {
-		Login login = new Login();
-		// Join join = new Join();
 
-		Scanner sc = new Scanner(System.in);
+	static void nonMemHome() {
+		manager = new MemberManager(ClassMemberDAO.getInstance());
+		Login login = new Login();
+		InputReader ir = new InputReader();
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -42,7 +38,7 @@ public class HomeScreen {
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 
-		int num = Integer.parseInt(sc.nextLine());
+		int num = ir.readInteger();
 
 		switch (num) {
 		case 1:
@@ -54,7 +50,7 @@ public class HomeScreen {
 			mid = login.mid;
 			break;
 		case 3:
-			// join.userJoin();
+			manager.createId();
 			break;
 		case 0:
 			System.out.println("프로그램 종료");
@@ -66,19 +62,10 @@ public class HomeScreen {
 	}
 
 	static void memHome() {
-<<<<<<< Updated upstream
-		MemberManager manager = new MemberManager(ClassMemberDAO.getInstance());
-		member = manager.loginInfo(mid);
-		ClassManager manager2 = new ClassManager(ClassDAO.getInstance());
-		
-		Scanner sc = new Scanner(System.in);
-=======
 		manager = new MemberManager(ClassMemberDAO.getInstance());
 		ClassMember member = manager.loginInfo(mid);
-		OrderClass orderClass = new OrderClass(ClassDAO.getInstance());
 		ClassManager classManager = new ClassManager(ClassDAO.getInstance());
 		InputReader ir = new InputReader();
->>>>>>> Stashed changes
 
 		System.out.println();
 		System.out.println("원 비트 클래스");
@@ -91,7 +78,8 @@ public class HomeScreen {
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
-		int num = Integer.parseInt(sc.nextLine());
+		
+		int num = ir.readInteger();
 
 		switch (num) {
 		case 1:
@@ -101,10 +89,9 @@ public class HomeScreen {
 			manager.showMyInfo(mid);
 			break;
 		case 3:
-			orderClass.showClass2(member.getMno());
 			break;
 		case 4:
-			manager2.showClass(member.getMno());
+			classManager.showClass(member.getMno());
 			break;
 		case 9:
 			isLogin = false;
