@@ -93,7 +93,7 @@ public class BitClassManager {
 			String enddate = ir.readString();
 			System.out.println("수강료를 입력해주세요. (only 숫자)");
 			int fee = ir.readInteger();
-			System.out.println("최대 수강 인원을 입력해주세요 (only 숫자)");
+			System.out.println("최대 수강 인원을 입력해주세요 (only 숫자, 100명 미만)");
 			int numpeople = ir.readInteger();
 
 			bitClass = new BitClass(0, title, cloc, startdate, enddate, fee, numpeople);
@@ -119,7 +119,6 @@ public class BitClassManager {
 			System.out.println("원하는 강좌의 수강료 할인을 시작합니다.");
 			System.out.println("강좌 번호를 입력해주세요.");
 			int selClassNum = ir.readInteger()-1;
-			System.out.println(list.size());
 			if(selClassNum+1 > list.size()) {
 				System.out.println("해당 번호에 맞는 강의가 없습니다.");
 				return;

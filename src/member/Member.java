@@ -127,8 +127,7 @@ public class Member {
 			manageMyPoint(manager);
 			break;
 		case 3:
-			deleteMyId(manager);
-			HomeScreen.isLogin = false;
+			HomeScreen.isLogin = deleteMyId(manager);;
 			break;
 		case 0:
 			break;
@@ -144,8 +143,8 @@ public class Member {
 	}
 
 	// 회원 탈퇴
-	private void deleteMyId(MemberManager manager) {
-		manager.deleteMyId(mid);
+	private boolean deleteMyId(MemberManager manager) {
+		return manager.deleteMyId(mid);
 	}
 
 	// 포인트 관리

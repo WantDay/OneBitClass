@@ -179,8 +179,6 @@ public class BitClassInfo {
 		int point = member.getMpoint();
 		int fee = bitClass.discountFee();
 		int mPoint = point - fee; // 결제 후 남은 잔액
-		int NumOfPeople = bitClass.getNumPeople();
-		int NumOfEnroll = bitClass.getEnroll();
 
 		// 중복된 강좌 신청이 들어오면 메소드 종료
 		if (bitClassManager.checkDupClass(member, bitClass.getCno())) {
@@ -192,7 +190,7 @@ public class BitClassInfo {
 			return;
 		}
 		// 수강 인원이 초과한 경우 메소드 종료
-		if (NumOfPeople >= NumOfEnroll) {
+		if (bitClass.getEnroll() >= bitClass.getNumPeople()) {
 			System.out.println("수강 인원이 꽉 찼습니다.");
 			return;
 		}
