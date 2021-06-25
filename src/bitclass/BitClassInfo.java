@@ -85,6 +85,10 @@ public class BitClassInfo {
 		if(select == 0) {
 			return;
 		}
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
 		payment(list.get(select-1), member);
 	}
 
@@ -139,7 +143,15 @@ public class BitClassInfo {
 		if(select == 0) {
 			return;
 		}
-		
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
+		if(member == null) {
+			System.out.println("신청을 위해 로그인을 해주세요.");
+			return;
+		}
+
 		payment(list.get(select-1), member);
 	}
 	
