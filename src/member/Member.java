@@ -153,10 +153,14 @@ public class Member {
 
 		System.out.println("1. 포인트 충전");
 		System.out.println("2. 포인트 인출");
-
+		System.out.println("0. 뒤로 가기 ");
+		
 		InputReader ir = new InputReader();
 		int select = ir.readInteger();
-
+		if(select == 0) {
+			System.out.println("이전 메뉴로 돌아갑니다.");
+			return;
+		}
 		selectPointMenu(select, manager);
 	}
 
@@ -220,7 +224,7 @@ public class Member {
 		}
 	}
 
-	// 포인트 정산
+	// 포인트 정산 (미구현)
 	private void settlePoint() {
 		// join을 통해 orders에서 결제된 포인트의 총합을 구함
 		int earnedPoint = 0;

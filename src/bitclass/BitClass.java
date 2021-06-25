@@ -140,6 +140,11 @@ public class BitClass {
 	public int discountFee() {
 		return (int)(Math.round(getFee() * (1 - getDiscount() * 0.01)));
 	}
+	
+	public void printClass(int i) {
+		System.out.printf("%d. %-25s%-10s%8d  %-12s%-12s%2d/%d\n", i, title, cloc, discountFee(), startDate, endDate,
+				enroll,numPeople);
+	}
 
 	@Override
 	public String toString() {

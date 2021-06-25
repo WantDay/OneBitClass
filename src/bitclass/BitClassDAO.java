@@ -143,7 +143,7 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass";
+			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass order by startdate";
 			pstmt = conn.prepareStatement(sql);
 
 			// 결과 받아오기
@@ -193,7 +193,7 @@ public class BitClassDAO {
 		try {
 			if (type == 1) { // 할인 강좌 보기
 				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
-						+ "from bitclass where discount > 0 order by discount";
+						+ "from bitclass where discount > 0 order by discount desc";
 				pstmt = conn.prepareStatement(sql);
 			} else if (type == 2) { // 마감 임박 강좌 보기
 

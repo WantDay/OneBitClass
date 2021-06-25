@@ -151,7 +151,7 @@ public class BitClassInfo {
 		ArrayList<BitClass> list = bitClassManager.takeClass();
 
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println(i + 1 + ". " + list.get(i));
+			list.get(i).printClass(i+1);
 		}
 		System.out.println("--------------------------------------------------------------------");
 		System.out.println("0. 뒤로가기");
