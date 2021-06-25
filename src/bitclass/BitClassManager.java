@@ -261,8 +261,6 @@ public class BitClassManager {
 			List<BitClass> creClass = dao.getCreClass(conn, member); // 내가 만든 클래스인지 확인
 			
 			for(int i = 0; i<creClass.size();i++) {
-				System.out.println("현재 가입할 강좌 cno" + cno);
-				System.out.println("내가 개설한 강좌 cno" + creClass.get(i).getCno());
 				if(cno == creClass.get(i).getCno()) {
 					System.out.println("내가 개설한 강좌입니다.");
 					return true;
