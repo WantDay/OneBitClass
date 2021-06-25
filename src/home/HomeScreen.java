@@ -38,27 +38,31 @@ public class HomeScreen {
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 
-		int num = ir.readInteger();
+		try {
+			int num = ir.readInteger();
 
-		switch (num) {
-		case 1:
-			classInfo.classMenu(null);
-			mid = classInfo.getMid();
-			break;
-		case 2:
-			isLogin = login.userLogin();
-			mid = login.getMid();
-			break;
-		case 3:
-			manager.createId();
-			break;
-		case 0:
-			System.out.println("프로그램 종료");
-			System.exit(0);
-			break;
-		default:
-			System.out.println("올바른 숫자를 입력하세요.");
-			break;
+			switch (num) {
+			case 1:
+				classInfo.classMenu(null);
+				mid = classInfo.getMid();
+				break;
+			case 2:
+				isLogin = login.userLogin();
+				mid = login.getMid();
+				break;
+			case 3:
+				manager.createId();
+				break;
+			case 0:
+				System.out.println("프로그램 종료");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("올바른 숫자를 입력하세요.");
+				break;
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("메뉴는 숫자로 입력해주세요.");
 		}
 	}
 
@@ -79,30 +83,35 @@ public class HomeScreen {
 		System.out.println("0. 프로그램 종료");
 		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
-		int num = ir.readInteger();
+		
+		try {
+			int num = ir.readInteger();
 
-		switch (num) {
-		case 1:
-			classInfo.classMenu(member);
-			break;
-		case 2:
-			member.showMyInfo(manager);
-			break;
-		case 3:
-			classManager.showMyClassInfo(member);
-			break;
-		case 4:
-			classManager.showClass(member.getMno());
-			break;
-		case 9:
-			isLogin = false;
-			break;
-		case 0:
-			System.out.println("프로그램 종료");
-			System.exit(0);
-			break;
-		default:
-			System.out.println("올바른 숫자를 입력하세요.");
+			switch (num) {
+			case 1:
+				classInfo.classMenu(member);
+				break;
+			case 2:
+				member.showMyInfo(manager);
+				break;
+			case 3:
+				classManager.showMyClassInfo(member);
+				break;
+			case 4:
+				classManager.showClass(member);
+				break;
+			case 9:
+				isLogin = false;
+				break;
+			case 0:
+				System.out.println("프로그램 종료");
+				System.exit(0);
+				break;
+			default:
+				System.out.println("올바른 숫자를 입력하세요.");
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("메뉴는 숫자로 입력해주세요.");
 		}
 	}
 }

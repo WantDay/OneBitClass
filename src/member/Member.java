@@ -10,7 +10,7 @@ public class Member {
 	private String mid; // 회원 ID
 	private String mpw; // 비밀번호
 	private String mname; // 이름
-	private String mdate; // 생년 월일
+	private String mphone; // 전화번호
 	private String mloc; // 선호 지역
 	private int mpoint; // 보유 포인트
 
@@ -46,12 +46,12 @@ public class Member {
 		this.mname = mname;
 	}
 
-	public String getMdate() {
-		return mdate;
+	public String getMphone() {
+		return mphone;
 	}
 
-	public void setMdate(String mdate) {
-		this.mdate = mdate;
+	public void setMphone(String mphone) {
+		this.mphone = mphone;
 	}
 
 	public String getMloc() {
@@ -70,30 +70,30 @@ public class Member {
 		this.mpoint = mpoint;
 	}
 
-	public Member(int mno, String mid, String mpw, String mname, String mdate, String mloc) {
+	public Member(int mno, String mid, String mpw, String mname, String mphone, String mloc) {
 		this.mno = mno;
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mname = mname;
-		this.mdate = mdate;
+		this.mphone = mphone;
 		this.mloc = mloc;
 		mpoint = 0;
 	}
 
-	public Member(String mid, String mpw, String mloc, String mdate) {
+	public Member(String mid, String mpw, String mloc, String mphone) {
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mloc = mloc;
-		this.mdate = mdate;
+		this.mphone = mphone;
 
 	}
 
-	public Member(int mno, String mid, String mpw, String mname, String mdate, String mloc, int mpoint) {
+	public Member(int mno, String mid, String mpw, String mname, String mphone, String mloc, int mpoint) {
 		this.mno = mno;
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mname = mname;
-		this.mdate = mdate;
+		this.mphone = mphone;
 		this.mloc = mloc;
 		this.mpoint = mpoint;
 	}
@@ -105,7 +105,7 @@ public class Member {
 		System.out.println();
 		System.out.println("ID : " + mid);
 		System.out.println("이름 : " + mname);
-		System.out.println("생년월일 : " + mdate);
+		System.out.println("전화번호 : " + mphone);
 		System.out.println("관심 지역 : " + mloc);
 		System.out.println("포인트 : " + mpoint);
 		System.out.println("------------------------");
@@ -195,14 +195,14 @@ public class Member {
 			System.out.println("충전 완료!");
 			System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
 		} else {
-			System.out.println("포인트는 최소 1원 이상 가능합니다.");
+			System.out.println("포인트 충전은 최소 1원 이상 가능합니다.");
 
 		}
 	}
 
 	// 포인트 인출
 	private void withdrawPoint(MemberManager manager) {
-		System.out.println("인출 하실 금액을 입력해주세요.");
+		System.out.println("인출하실 금액을 입력해주세요.");
 		InputReader ir = new InputReader();
 		int withdrawal = ir.readInteger();
 		if (withdrawal >= 100 && withdrawal <= mpoint) {
@@ -233,7 +233,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "ClassMember [mno=" + mno + ", mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", mdate=" + mdate
+		return "ClassMember [mno=" + mno + ", mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", mphone=" + mphone
 				+ ", mloc=" + mloc + ", mpoint=" + mpoint + "]";
 	}
 

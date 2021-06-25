@@ -38,15 +38,15 @@ public class MemberManager {
 			String mpw = ir.readString();
 			System.out.println("이름을 입력해주세요.");
 			String mname = ir.readString();
-			System.out.println("생년월일을 입력해주세요. ex)91/07/21");
-			String mdate = ir.readString();
+			System.out.println("휴대전화번호를 입력해주세요. ex) 010-0000-0000");
+			String mphone = ir.readString();
 			System.out.println("선호하시는 지역을 입력해주세요.");
 			String mloc = ir.readString();
 
 			encryption = new Encryption(mpw.getBytes());
 			mpw = encryption.hashing();
 
-			member = new Member(0, mid, mpw, mname, mdate, mloc);
+			member = new Member(0, mid, mpw, mname, mphone, mloc);
 
 			int result = dao.createId(conn, member);
 
@@ -75,13 +75,13 @@ public class MemberManager {
 			String mpw = ir.readString();
 			System.out.println("지역을 입력해주세요. 변경을 원치 않을 경우 기존 정보를 입력해주세요.");
 			String mloc = ir.readString();
-			System.out.println("생년월일을 입력해주세요. ex)91/07/21");
-			String mdate = ir.readString();
+			System.out.println("휴대전화번호를 입력해주세요. ex) 010-0000-0000");
+			String mphone = ir.readString();
 
 			encryption = new Encryption(mpw.getBytes());
 			mpw = encryption.hashing();
 
-			member = new Member(mid, mpw, mloc, mdate);
+			member = new Member(mid, mpw, mloc, mphone);
 
 			int result = dao.editInfo(conn, member);
 

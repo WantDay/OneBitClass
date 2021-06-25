@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import member.Member;
 
@@ -86,8 +85,8 @@ public class BitClassDAO {
 		return result;
 	}
 
-	// 3. 강좌 정보 가져오기
-	public ArrayList<BitClass> getInfo(Connection conn, int mno) {
+	// 3. 내가 생성한 강좌 정보 가져오기
+	public ArrayList<BitClass> getCreClass(Connection conn, Member member) {
 
 		ArrayList<BitClass> list = null;
 
@@ -95,9 +94,9 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from bitclass natural join classmember where mno = ? order by cno";
+			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass natural join classmember where mno = ? order by cno";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, mno);
+			pstmt.setInt(1, member.getMno());
 
 			// 결과 받아오기
 			rs = pstmt.executeQuery();
@@ -108,12 +107,6 @@ public class BitClassDAO {
 				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
-			}
-			Iterator<BitClass> itr = list.iterator();
-			while (itr.hasNext()) {
-				BitClass bc = (BitClass) itr.next();
-				System.out.print(bc);
-				System.out.println();
 			}
 
 		} catch (SQLException e) {
@@ -150,7 +143,7 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from bitclass";
+			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass";
 			pstmt = conn.prepareStatement(sql);
 
 			// 결과 받아오기
@@ -188,21 +181,33 @@ public class BitClassDAO {
 		return list;
 	}
 
-	// 5. 할인 강좌 정보 가져오기
-	public ArrayList<BitClass> getDiscountClass(Connection conn) {
+	// 공통 부분 묶기
+	public ArrayList<BitClass> showClassList(Connection conn, String loc, int type) {
 
 		ArrayList<BitClass> list = null;
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String sql = null;
 
 		try {
-			String sql = "select * from bitclass where discount > 0 order by discount";
-			pstmt = conn.prepareStatement(sql);
+			if (type == 1) { // 할인 강좌 보기
+				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
+						+ "from bitclass where discount > 0 order by discount";
+				pstmt = conn.prepareStatement(sql);
+			} else if (type == 2) { // 마감 임박 강좌 보기
 
+				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
+						+ "from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate)";
+				pstmt = conn.prepareStatement(sql);
+			} else if (type == 3) { // 선호 지역 강좌 보기
+				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
+						+ "from bitclass where cloc = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, loc);
+			}
 			// 결과 받아오기
 			rs = pstmt.executeQuery();
-
 			list = new ArrayList<>();
 
 			while (rs.next()) {
@@ -210,10 +215,8 @@ public class BitClassDAO {
 						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
 						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 		} finally {
 			if (rs != null) {
 				try {
@@ -231,7 +234,6 @@ public class BitClassDAO {
 				}
 			}
 		}
-
 		return list;
 	}
 
@@ -244,7 +246,7 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from bitclass where cloc = ?";
+			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass where cloc = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, loc);
 
@@ -292,7 +294,7 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select * from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate)";
+			String sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate)";
 			pstmt = conn.prepareStatement(sql);
 
 			// 결과 받아오기
@@ -360,7 +362,7 @@ public class BitClassDAO {
 	public void enrollClass(Connection conn, BitClass bitClass, Member member) {
 		PreparedStatement pstmt = null;
 		String sql = null;
-		
+
 		sql = "update bitclass set enroll = ? where title=?";
 		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 1);
 
@@ -373,8 +375,9 @@ public class BitClassDAO {
 		sql = "insert into classorder values (classorder_orderno_seq.nextval, ?, ?, sysdate)";
 		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 4);
 	}
-	
-	private void pstmtExecuteUpdate(Connection conn, BitClass bitClass, Member member, PreparedStatement pstmt, String sql, int type) {
+
+	private void pstmtExecuteUpdate(Connection conn, BitClass bitClass, Member member, PreparedStatement pstmt,
+			String sql, int type) {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			if (type == 1) {
@@ -413,8 +416,8 @@ public class BitClassDAO {
 		ResultSet rs = null;
 
 		try {
-			String sql = "select b.cno, b.mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
-					+ "from bitclass b, classorder c " + "where b.cno = c.cno and c.mno = ?";
+			String sql = "select b.cno, c.mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
+					+ "from bitclass b, classorder c where b.cno = c.cno and c.mno = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, member.getMno());
 

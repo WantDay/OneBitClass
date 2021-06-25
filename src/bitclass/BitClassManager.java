@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import home.InputReader;
@@ -26,14 +27,20 @@ public class BitClassManager {
 	}
 
 	// 등록한 강좌 리스트
-	public void showClass(int mno) {
+	public void showClass(Member member) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
-			dao.getInfo(conn, mno);
+			List<BitClass> list = dao.getCreClass(conn, member);
+			Iterator<BitClass> itr = list.iterator();
+			while (itr.hasNext()) {
+				BitClass bc = (BitClass) itr.next();
+				System.out.print(bc);
+				System.out.println();
+			}
 			System.out.println();
 
 		} catch (SQLException e) {
@@ -49,7 +56,7 @@ public class BitClassManager {
 		System.out.print("번호 입력 : ");
 		int num = ir.readInteger();
 
-		selectMyInfoMenu(num, mno);
+		selectMyInfoMenu(num, member.getMno());
 	}
 
 	// 강좌 정보 메뉴 선택하기
@@ -133,7 +140,6 @@ public class BitClassManager {
 	}
 
 	// 전체 강좌 정보 멤버 객체 생성
-
 	public ArrayList<BitClass> takeClass() {
 		ArrayList<BitClass> list = null;
 		try {
@@ -152,7 +158,6 @@ public class BitClassManager {
 	}
 
 	// 할인 강좌 정보 멤버 객체 생성
-
 	public ArrayList<BitClass> getDiscountClass() {
 		ArrayList<BitClass> list = null;
 		try {
@@ -162,7 +167,7 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getDiscountClass(conn);
+			list = dao.showClassList(conn, null, 1);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -171,7 +176,6 @@ public class BitClassManager {
 	}
 
 	// 마감 임박 강좌 보기 (일주일 이내)
-
 	public ArrayList<BitClass> getDeadLineClass() {
 		ArrayList<BitClass> list = null;
 		try {
@@ -181,7 +185,7 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getDeadLineClass(conn);
+			list = dao.showClassList(conn, null, 2);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -200,14 +204,14 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getLocClass(conn, mloc);
+			list = dao.showClassList(conn, mloc, 3);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
-	
+	// 수강 신청 데이터베이스 입력 
 	public void enrollClass(BitClass bitClass, Member member) {
 		
 		try {
@@ -219,7 +223,7 @@ public class BitClassManager {
 		}
 		
 	}
-	
+	// 내가 등록한 강좌 보기
 	public void showMyClassInfo(Member member) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
@@ -237,4 +241,37 @@ public class BitClassManager {
 			e.printStackTrace();
 		}
 	}
+	
+	// 신청할때 중복으로 가능한지 비교 
+	public boolean checkDupClass(Member member, int cno) {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			List<BitClass> dupClass = dao.getMyClassInfo(conn, member);
+			
+
+			
+			for(int i = 0; i<dupClass.size();i++) { // 내가 기존에 신청한 클래스인지 확인
+				if(cno == dupClass.get(i).getCno()) {
+					System.out.println("이미 수강신청한 강좌입니다.");
+					return true;
+				}
+			}
+			
+			List<BitClass> creClass = dao.getCreClass(conn, member); // 내가 만든 클래스인지 확인
+			
+			for(int i = 0; i<creClass.size();i++) {
+				if(cno == creClass.get(i).getCno()) {
+					System.out.println("내가 개설한 강좌입니다.");
+					return true;
+				}
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return false;
+	} 
+	
 }

@@ -78,10 +78,13 @@ public class BitClassInfo {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i+1 + ". "+list.get(i));
 		}
-		System.out.println("-----------------------------------");
+		System.out.println("--------------------------------------------------------------------");
+		System.out.println("0. 뒤로가기");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
 		int select = ir.readInteger();	
-		
+		if(select == 0) {
+			return;
+		}
 		payment(list.get(select-1), member);
 	}
 
@@ -93,10 +96,13 @@ public class BitClassInfo {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i+1 + ". "+list.get(i));
 		}
-		System.out.println("-----------------------------------");
+		System.out.println("--------------------------------------------------------------------");
+		System.out.println("0. 뒤로가기");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
 		int select = ir.readInteger();	
-		
+		if(select == 0) {
+			return;
+		}
 		payment(list.get(select-1), member);
 	}
 
@@ -108,10 +114,13 @@ public class BitClassInfo {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i+1 + ". "+list.get(i));
 		}
-		System.out.println("-----------------------------------");
+		System.out.println("--------------------------------------------------------------------");
+		System.out.println("0. 뒤로가기");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
 		int select = ir.readInteger();	
-		
+		if(select == 0) {
+			return;
+		}
 		payment(list.get(select-1), member);
 	}
 
@@ -119,26 +128,41 @@ public class BitClassInfo {
 	void showTakeClass(Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = bitClassManager.takeClass();
-
+		
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(i+1 + ". "+list.get(i));
 		}
-		System.out.println("-----------------------------------");
+		System.out.println("--------------------------------------------------------------------");
+		System.out.println("0. 뒤로가기");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
 		int select = ir.readInteger();	
+		if(select == 0) {
+			return;
+		}
 		
 		payment(list.get(select-1), member);
 	}
 	
 	// 11. 강좌 신청하는 클래스
 	void payment(BitClass bitClass, Member member) {
+		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		int point = member.getMpoint(); 
 		int fee = bitClass.discountFee();
 		int mPoint = point - fee; // 결제 후 남은 잔액
+		
+		if(bitClassManager.checkDupClass(member, bitClass.getCno())) {
+			return;
+		}
+		if(mPoint < 0 ) {
+			System.out.println("포인트가 부족합니다.");
+			return;
+		} 
+		
+
 		member.setMpoint(mPoint);
 		System.out.println("신청이 완료되었습니다.");
 		System.out.println("현재 남은 포인트 : " + member.getMpoint());
-
+		
 		bitClass.setEnroll(bitClass.getEnroll()+1);
 
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
