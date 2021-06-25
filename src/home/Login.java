@@ -1,4 +1,4 @@
-package bitClass;
+package home;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

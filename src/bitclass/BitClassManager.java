@@ -1,4 +1,4 @@
-package onebitclass;
+package bitclass;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,11 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bitClass.InputReader;
+import home.InputReader;
+import member.Member;
 
-public class ClassManager {
+public class BitClassManager {
 
-	private ClassDAO dao;
+	private BitClassDAO dao;
 	private BitClass bitClass;
 	private InputReader ir;
 	Connection conn = null;
@@ -18,7 +19,7 @@ public class ClassManager {
 	String user = "hr";
 	String pw = "tiger";
 
-	public ClassManager(ClassDAO dao) {
+	public BitClassManager(BitClassDAO dao) {
 		this.dao = dao;
 		ir = new InputReader();
 
@@ -32,7 +33,7 @@ public class ClassManager {
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
-			List<BitClass> list = dao.getInfo(conn, mno);
+			dao.getInfo(conn, mno);
 			System.out.println();
 
 		} catch (SQLException e) {
@@ -195,7 +196,7 @@ public class ClassManager {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
-			System.out.println("\n마감 임박 강좌");
+			System.out.println("\n주변 지역 강좌");
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
@@ -205,5 +206,35 @@ public class ClassManager {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	public void enrollClass(BitClass bitClass, Member member) {
+		
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			
+			dao.enrollClass(conn, bitClass, member);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void showMyClassInfo(Member member) {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+					
+			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
+			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
+			System.out.println("--------------------------------------------------------------------");
+			
+			List<BitClass> list = dao.getMyClassInfo(conn, member);
+			
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println(i+1 + ". " +list.get(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

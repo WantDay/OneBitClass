@@ -1,4 +1,4 @@
-package onebitclass;
+package bitclass;
 
 //import java.util.Date;
 

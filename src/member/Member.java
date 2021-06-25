@@ -1,9 +1,9 @@
 package member;
 
-import bitClass.HomeScreen;
-import bitClass.InputReader;
+import home.HomeScreen;
+import home.InputReader;
 
-public class ClassMember {
+public class Member {
 	// 회원이 입력 데이터를 넣어서 가입 및 관리
 
 	private int mno; // 회원 번호
@@ -70,7 +70,7 @@ public class ClassMember {
 		this.mpoint = mpoint;
 	}
 
-	public ClassMember(int mno, String mid, String mpw, String mname, String mdate, String mloc) {
+	public Member(int mno, String mid, String mpw, String mname, String mdate, String mloc) {
 		this.mno = mno;
 		this.mid = mid;
 		this.mpw = mpw;
@@ -80,7 +80,7 @@ public class ClassMember {
 		mpoint = 0;
 	}
 
-	public ClassMember(String mid, String mpw, String mloc, String mdate) {
+	public Member(String mid, String mpw, String mloc, String mdate) {
 		this.mid = mid;
 		this.mpw = mpw;
 		this.mloc = mloc;
@@ -88,7 +88,7 @@ public class ClassMember {
 
 	}
 
-	public ClassMember(int mno, String mid, String mpw, String mname, String mdate, String mloc, int mpoint) {
+	public Member(int mno, String mid, String mpw, String mname, String mdate, String mloc, int mpoint) {
 		this.mno = mno;
 		this.mid = mid;
 		this.mpw = mpw;
