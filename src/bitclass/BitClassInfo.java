@@ -149,13 +149,15 @@ public class BitClassInfo {
 		int point = member.getMpoint(); 
 		int fee = bitClass.discountFee();
 		int mPoint = point - fee; // 결제 후 남은 잔액
+		
+		if(bitClassManager.checkDupClass(member, bitClass.getCno())) {
+			return;
+		}
 		if(mPoint < 0 ) {
 			System.out.println("포인트가 부족합니다.");
 			return;
 		} 
-		if(bitClassManager.checkDupClass(member, bitClass.getCno())) {
-			return;
-		}
+		
 
 		member.setMpoint(mPoint);
 		System.out.println("신청이 완료되었습니다.");
