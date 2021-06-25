@@ -92,7 +92,7 @@ public class HomeScreen {
 			classManager.showMyClassInfo(member);
 			break;
 		case 4:
-			classManager.showClass(member.getMno());
+			classManager.showClass(member);
 			break;
 		case 9:
 			isLogin = false;
