@@ -12,6 +12,7 @@ public class BitClassInfo {
 	private InputReader ir;
 	private String mid;
 
+	// 1. 강좌 정보 메뉴 보기
 	public void classMenu(Member member) {
 		Login login = new Login();
 		ir = new InputReader();
@@ -70,7 +71,7 @@ public class BitClassInfo {
 		}
 	}
 
-	// 할인 강좌 보기
+	// 2. 할인 강좌 보기
 	void showDiscountClasses(Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = bitClassManager.getDiscountClass();
@@ -85,10 +86,18 @@ public class BitClassInfo {
 		if (select == 0) {
 			return;
 		}
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
+		if(member == null) {
+			System.out.println("신청을 위해 로그인을 해주세요.");
+			return;
+		}
 		payment(list.get(select - 1), member);
 	}
 
-	// 마감임박 강좌 보기
+	// 3. 마감임박 강좌 보기
 	void showDeadlineClasses(Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = bitClassManager.getDeadLineClass();
@@ -103,10 +112,18 @@ public class BitClassInfo {
 		if (select == 0) {
 			return;
 		}
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
+		if(member == null) {
+			System.out.println("신청을 위해 로그인을 해주세요.");
+			return;
+		}
 		payment(list.get(select - 1), member);
 	}
 
-	// 내 관심지역 강좌 보기
+	// 4. 내 관심지역 강좌 보기
 	void showLocalClasses(Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = bitClassManager.getLocClass(member.getMloc());
@@ -121,10 +138,14 @@ public class BitClassInfo {
 		if (select == 0) {
 			return;
 		}
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
 		payment(list.get(select - 1), member);
 	}
 
-	// 전체 강좌 보기
+	// 5. 전체 강좌 보기
 	void showTakeClass(Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		ArrayList<BitClass> list = bitClassManager.takeClass();
@@ -136,14 +157,23 @@ public class BitClassInfo {
 		System.out.println("0. 뒤로가기");
 		System.out.println("신청할 강좌의 번호를 입력해주세요");
 		int select = ir.readInteger();
+		
 		if (select == 0) {
 			return;
 		}
-
+		if((select) > list.size()) {
+			System.out.println("해당 번호에 맞는 강의가 없습니다.");
+			return;
+		}
+		if(member == null) {
+			System.out.println("신청을 위해 로그인을 해주세요.");
+			return;
+		}
+		
 		payment(list.get(select - 1), member);
 	}
 
-	// 11. 강좌 신청하는 클래스
+	// 6. 강좌 신청하는 클래스
 	void payment(BitClass bitClass, Member member) {
 		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
 		int point = member.getMpoint();

@@ -55,17 +55,17 @@ public class BitClassDAO {
 	}
 
 	// 2. 강좌 할인 적용
-	int editInfo(Connection conn, BitClass bitClass, int mno) {
+	int editClass(Connection conn, BitClass bitClass, int mno) {
 
 		int result = 0;
 
 		PreparedStatement pstmt = null;
 
 		try {
-			String sql = "update bitclass set discount = ? where title=? and mno = ?";
+			String sql = "update bitclass set discount = ? where cno = ? and mno = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bitClass.getDiscount());
-			pstmt.setString(2, bitClass.getTitle());
+			pstmt.setInt(2, bitClass.getCno());
 			pstmt.setInt(3, mno);
 
 			result = pstmt.executeUpdate();
