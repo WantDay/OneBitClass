@@ -152,7 +152,6 @@ public class BitClassManager {
 	}
 
 	// 할인 강좌 정보 멤버 객체 생성
-
 	public ArrayList<BitClass> getDiscountClass() {
 		ArrayList<BitClass> list = null;
 		try {
@@ -162,7 +161,8 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getDiscountClass(conn);
+			list = dao.showClassList(conn, null, 1);
+			
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,7 +181,7 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getDeadLineClass(conn);
+			list = dao.showClassList(conn, null, 2);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -200,7 +200,7 @@ public class BitClassManager {
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
 
-			list = dao.getLocClass(conn, mloc);
+			list = dao.showClassList(conn, mloc, 3);
 			return list;
 		} catch (SQLException e) {
 			e.printStackTrace();
