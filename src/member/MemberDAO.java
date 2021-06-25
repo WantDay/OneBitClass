@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MemberDAO {
@@ -20,8 +19,7 @@ public class MemberDAO {
 	}
 
 	// 1. 회원 가입 기능
-
-	int createId(Connection conn, Member member) { // 회원 가입
+	public int createId(Connection conn, Member member) { // 회원 가입
 
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -54,7 +52,7 @@ public class MemberDAO {
 	}
 
 	// 2. 회원 정보 수정
-	int editInfo(Connection conn, Member member) {
+	public int editInfo(Connection conn, Member member) {
 
 		int result = 0;
 
@@ -85,7 +83,7 @@ public class MemberDAO {
 	}
 
 	// 3. 회원 정보 보기
-	ArrayList<Member> getInfo(Connection conn, String mid) {
+	public ArrayList<Member> getInfo(Connection conn, String mid) {
 
 		ArrayList<Member> list = null;
 
@@ -128,8 +126,8 @@ public class MemberDAO {
 		return list;
 	}
 
-	// 회원 탈퇴 기능
-	int deleteId(Connection conn, Member member) {
+	// 4. 회원 탈퇴 기능
+	public int deleteId(Connection conn, Member member) {
 
 		int result = 0;
 
@@ -156,8 +154,8 @@ public class MemberDAO {
 		return result;
 	}
 
-	// 2. 포인트 수정
-	int editPoint(Connection conn, Member member) {
+	// 5. 포인트 수정
+	public int editPoint(Connection conn, Member member) {
 
 		int result = 0;
 
@@ -183,5 +181,36 @@ public class MemberDAO {
 			}
 		}
 		return result;
+	}
+	
+	// 6. 아이디 조회
+	public ArrayList<String> getMemberIds(Connection conn) {
+		ArrayList<String> memberIds = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			String sql = "select mid from classmember";
+			pstmt = conn.prepareStatement(sql);
+
+			// 결과 받아오기
+			rs = pstmt.executeQuery();
+
+			memberIds = new ArrayList<String>();
+
+			while (rs.next()) {
+				memberIds.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return memberIds;
 	}
 }
