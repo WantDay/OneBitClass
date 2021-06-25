@@ -3,6 +3,7 @@ package member;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import encryption.Encryption;
@@ -34,6 +35,13 @@ public class MemberManager {
 			System.out.println("회원 가입을 시작합니다.");
 			System.out.println("ID를 입력해주세요.");
 			String mid = ir.readString();
+			
+			// 현재 등록하려는 ID가 이미 DB에 있는 경우 종료
+			if (checkDupId(mid)) {
+				System.out.println("이미 존재하는 ID입니다. 다시 입력해주세요.");
+				return;
+			}
+			
 			System.out.println("PW를 입력해주세요.");
 			String mpw = ir.readString();
 			System.out.println("이름을 입력해주세요.");
@@ -61,10 +69,21 @@ public class MemberManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	private boolean checkDupId(String mid) {
+		ArrayList<String> memberIds = dao.getMemberIds(conn);
+		
+		for(int i = 0; i < memberIds.size(); i++) {
+			if (mid.equals(memberIds.get(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	// 회원 정보 수정
-
 	public void editId(String mid) {
 
 		try {

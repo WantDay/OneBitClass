@@ -211,67 +211,65 @@ public class BitClassManager {
 		}
 		return list;
 	}
-	// 수강 신청 데이터베이스 입력 
+
+	// 수강 신청 데이터베이스 입력
 	public void enrollClass(BitClass bitClass, Member member) {
-		
+
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			
+
 			dao.enrollClass(conn, bitClass, member);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	// 내가 등록한 강좌 보기
 	public void showMyClassInfo(Member member) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-					
+
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
 			System.out.println("강좌명" + "\t" + "지역" + "\t" + "수강료" + "\t" + "시작 날짜" + "\t" + "종료 날짜" + "\t" + "수강 인원");
 			System.out.println("--------------------------------------------------------------------");
-			
+
 			List<BitClass> list = dao.getMyClassInfo(conn, member);
-			
+
 			for (int i = 0; i < list.size(); i++) {
-				System.out.println(i+1 + ". " +list.get(i));
+				System.out.println(i + 1 + ". " + list.get(i));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	// 신청할때 중복으로 가능한지 비교 
+
+	// 신청할때 중복으로 가능한지 비교
 	public boolean checkDupClass(Member member, int cno) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			
-			List<BitClass> dupClass = dao.getMyClassInfo(conn, member);
-			
 
-			
-			for(int i = 0; i<dupClass.size();i++) { // 내가 기존에 신청한 클래스인지 확인
-				if(cno == dupClass.get(i).getCno()) {
+			List<BitClass> dupClass = dao.getMyClassInfo(conn, member);
+
+			for (int i = 0; i < dupClass.size(); i++) { // 내가 기존에 신청한 클래스인지 확인
+				if (cno == dupClass.get(i).getCno()) {
 					System.out.println("이미 수강신청한 강좌입니다.");
 					return true;
 				}
 			}
-			
+
 			List<BitClass> creClass = dao.getCreClass(conn, member); // 내가 만든 클래스인지 확인
-			
-			for(int i = 0; i<creClass.size();i++) {
-				if(cno == creClass.get(i).getCno()) {
+
+			for (int i = 0; i < creClass.size(); i++) {
+				if (cno == creClass.get(i).getCno()) {
 					System.out.println("내가 개설한 강좌입니다.");
 					return true;
 				}
 			}
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} 
+		}
 		return false;
-	} 
-	
+	}
 }
