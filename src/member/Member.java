@@ -4,6 +4,8 @@ import home.HomeScreen;
 import home.InputReader;
 
 public class Member {
+	private HomeScreen home;
+	
 	// 회원이 입력 데이터를 넣어서 가입 및 관리
 
 	private int mno; // 회원 번호
@@ -100,6 +102,7 @@ public class Member {
 
 	// 내 정보 보기
 	public void showMyInfo(MemberManager manager) {
+		home = HomeScreen.getInstance();
 		InputReader ir = new InputReader();
 
 		System.out.println();
@@ -127,7 +130,7 @@ public class Member {
 			manageMyPoint(manager);
 			break;
 		case 3:
-			HomeScreen.isLogin = deleteMyId(manager);;
+			home.setLogin(deleteMyId(manager));
 			break;
 		case 0:
 			break;
@@ -150,7 +153,7 @@ public class Member {
 	// 포인트 관리
 	private void manageMyPoint(MemberManager manager) {
 		// 포인트 충전, 인출, 정산 선택
-
+		System.out.println("------------------");
 		System.out.println("1. 포인트 충전");
 		System.out.println("2. 포인트 인출");
 		System.out.println("0. 뒤로 가기 ");
