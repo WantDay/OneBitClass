@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import encryption.Encryption;
 import home.InputReader;
@@ -147,11 +146,9 @@ public class MemberManager {
 	// 로그인 회원 관리
 	public Member loginInfo(String mid) {
 		try {
-
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-			List<Member> list = dao.getInfo(conn, mid);
 
-			member = list.get(0);
+			member = dao.getMemberByMid(conn, mid);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -184,7 +181,7 @@ public class MemberManager {
 		return true;
 	}
 
-	public void editPoint(int total) {
+	public void editPoint(int total, Member member) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 			dao.editPoint(conn, member);

@@ -83,10 +83,8 @@ public class MemberDAO {
 	}
 
 	// 3. 회원 정보 보기
-	public ArrayList<Member> getInfo(Connection conn, String mid) {
-
-		ArrayList<Member> list = null;
-
+	public Member getMemberByMid(Connection conn, String mid) {
+		Member member = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
@@ -97,12 +95,9 @@ public class MemberDAO {
 
 			// 결과 받아오기
 			rs = pstmt.executeQuery();
-
-			list = new ArrayList<>();
-
-			while (rs.next()) {
-				list.add(new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-						rs.getString(5), rs.getString(6), rs.getInt(7)));
+			
+			while(rs.next()) {
+				member = new Member(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -123,12 +118,11 @@ public class MemberDAO {
 				}
 			}
 		}
-		return list;
+		return member;
 	}
 
 	// 4. 회원 탈퇴 기능
 	public int deleteId(Connection conn, Member member) {
-
 		int result = 0;
 
 		PreparedStatement pstmt = null;
@@ -156,7 +150,6 @@ public class MemberDAO {
 
 	// 5. 포인트 수정
 	public int editPoint(Connection conn, Member member) {
-
 		int result = 0;
 
 		PreparedStatement pstmt = null;

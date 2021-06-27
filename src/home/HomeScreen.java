@@ -76,10 +76,10 @@ public class HomeScreen {
 	}
 
 	private void memHome() {
-		classInfo = new BitClassInfo();
 		classManager = new BitClassManager(BitClassDAO.getInstance());
-		member = manager.loginInfo(mid);
+		classInfo = new BitClassInfo();
 		manager = new MemberManager(MemberDAO.getInstance());
+		member = manager.loginInfo(mid);
 		InputReader ir = new InputReader();
 
 		System.out.println();
@@ -105,7 +105,7 @@ public class HomeScreen {
 				member.showMyInfo(manager);
 				break;
 			case 3:
-				classInfo.showMyClassInfo(member);
+				classInfo.showClasses(member, "MyEnrollClass");
 				break;
 			case 4:
 				classManager.showCreateClass(member);

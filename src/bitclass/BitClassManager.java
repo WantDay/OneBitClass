@@ -32,11 +32,11 @@ public class BitClassManager {
 
 			printClassNav("MyCreateClass");
 			bitClasses = dao.getClasses(conn, member, "MyCreateClass");
-			
+
 			for (int i = 0; i < bitClasses.size(); i++) {
-				System.out.println(i+1 + ". "+bitClasses.get(i));
+				bitClasses.get(i).printClass(i+1);
 			}
-			System.out.println("--------------------------------------------------------------------");
+			printNavVar();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,16 +57,13 @@ public class BitClassManager {
 	// 강좌 정보 메뉴 선택하기
 	private void selectMyInfoMenu(int num, Member member, List<BitClass> bitClasses) {
 		switch (num) {
-		case 1:
-			// 1. 강좌 개설
-			createClass(member.getMno());
+		case 1: // 1. 강좌 개설
+			createClass(member);
 			break;
-		case 2:
-			// 2. 수강료 할인
-			setDiscountFee(member.getMno(), bitClasses);
+		case 2: // 2. 수강료 할인
+			setDiscountFee(member, bitClasses);
 			break;
-		case 0:
-			// 0. 홈으로가기
+		case 0: // 0. 홈으로가기
 			break;
 		default:
 			System.out.println("올바른 숫자를 입력하세요.");
@@ -75,27 +72,47 @@ public class BitClassManager {
 	}
 
 	// 강좌 개설
-	public void createClass(int mno) {
+	public void createClass(Member member) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
 			System.out.println("새로운 강좌를 개설합니다.");
 			System.out.println("강좌 제목을 입력해주세요.");
 			String title = ir.readString();
+			
+			if (checkCreateDuplicateClass(member, title)) {
+				return;
+			}
+			if (title.length() > 20) { // 강좌 제목의 길이가 너무 긴 경우
+				System.out.println("강좌 제목의 길이가 너무 깁니다. 다시 입력해주세요.");
+				return;
+			}
+			
 			System.out.println("강좌가 진행될 지역을 입력해주세요.");
 			String cloc = ir.readString();
-			System.out.println("강좌 시작 날짜를 입력해주세요 ex)2021/06/20");
+			
+			if (cloc.length() > 10) { // 지역의 길이가 너무 긴 경우
+				System.out.println("강좌가 진행될 지역의 길이가 너무 깁니다. 다시 입력해주세요.");
+				return;
+			}
+			
+			System.out.println("강좌 시작 날짜를 입력해주세요 ex)21/06/20");
 			String startdate = ir.readString();
-			System.out.println("강좌 종료 날짜를 입력해주세요 ex)2021/06/20");
+			System.out.println("강좌 종료 날짜를 입력해주세요 ex)21/06/20");
 			String enddate = ir.readString();
 			System.out.println("수강료를 입력해주세요. (only 숫자)");
 			int fee = ir.readInteger();
 			System.out.println("최대 수강 인원을 입력해주세요 (only 숫자, 100명 미만)");
 			int numpeople = ir.readInteger();
+			
+			if (numpeople > 99) { // 최대 수강인원 너무 많은 경우
+				System.out.println("최대 수강인원은 100명 미만으로 입력해주세요.");
+				return;
+			}
 
 			bitClass = new BitClass(0, title, cloc, startdate, enddate, fee, numpeople);
 
-			int result = dao.createClass(conn, bitClass, mno);
+			int result = dao.createClass(conn, bitClass, member.getMno());
 
 			if (result > 0) {
 				System.out.println("입력 되었습니다.");
@@ -109,7 +126,7 @@ public class BitClassManager {
 	}
 
 	// 수강료 할인
-	private void setDiscountFee(int mno, List<BitClass> bitClasses) {
+	private void setDiscountFee(Member member, List<BitClass> bitClasses) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
 
@@ -126,7 +143,7 @@ public class BitClassManager {
 			bitClass = bitClasses.get(selClassNum);
 			bitClass.setDiscount(discount); 
 
-			int result = dao.editClass(conn, bitClass, mno);
+			int result = dao.editClass(conn, bitClass, member.getMno());
 
 			if (result > 0) {
 				System.out.println("입력 되었습니다.");
@@ -177,28 +194,24 @@ public class BitClassManager {
 			break;
 		}
 		
-		System.out.println("No 강좌명                      지역           수강료   시작날짜      종료날짜       수강인원  ");
-		System.out.println("------------------------------------------------------------------------------------");
+		printTopNavVar();
+		printNavVar();
 	}
 
 	// 수강 신청 데이터베이스 입력
 	public void enrollClass(BitClass bitClass, Member member) {
-
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-
 			dao.enrollClass(conn, bitClass, member);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	// 신청할때 중복으로 가능한지 비교
-	public boolean checkDupClass(Member member, int cno) {
+	public boolean checkDuplicateClass(Member member, int cno) {
 		try {
 			conn = DriverManager.getConnection(jdbcUrl, user, pw);
-
 			List<BitClass> dupClass = dao.getClasses(conn, member, "MyEnrollClass");
 
 			for (int i = 0; i < dupClass.size(); i++) { // 내가 기존에 신청한 클래스인지 확인
@@ -216,10 +229,35 @@ public class BitClassManager {
 					return true;
 				}
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	// 신청할때 중복으로 가능한지 비교
+	public boolean checkCreateDuplicateClass(Member member, String title) {
+		try {
+			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+			List<BitClass> dupClass = dao.getClasses(conn, member, "All");
+
+			for (int i = 0; i < dupClass.size(); i++) { // 이미 존재하는 강좌명인지 확인
+				if (title.equals(dupClass.get(i).getTitle())) {
+					System.out.println("이미 존재하는 강좌명입니다. 다시 입력해주세요.");
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public void printTopNavVar() {
+		System.out.println("No 강좌명                     지역                수강료    할인율   시작날짜      종료날짜      수강인원  ");
+	}
+	
+	public void printNavVar() {
+		System.out.println("--------------------------------------------------------------------------------------------");
 	}
 }

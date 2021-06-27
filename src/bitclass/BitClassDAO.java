@@ -20,7 +20,6 @@ public class BitClassDAO {
 
 	// 강좌 개설 기능
 	public int createClass(Connection conn, BitClass bitClass, int mno) { // 강좌 개설, 강사 번호 입력.
-
 		PreparedStatement pstmt = null;
 		int result = 0;
 
@@ -56,9 +55,7 @@ public class BitClassDAO {
 
 	// 강좌 할인 적용 기능
 	public int editClass(Connection conn, BitClass bitClass, int mno) {
-
 		int result = 0;
-
 		PreparedStatement pstmt = null;
 
 		try {
@@ -87,7 +84,7 @@ public class BitClassDAO {
 
 	// 공통 부분 묶기
 	public ArrayList<BitClass> getClasses(Connection conn, Member member, String type) {
-		ArrayList<BitClass> list = null;
+		ArrayList<BitClass> bitClasses = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
@@ -95,22 +92,22 @@ public class BitClassDAO {
 		try {
 			switch (type) {
 			case "All": // 전체 강좌 보기
-				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass order by startdate";
+				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll from bitclass order by startdate, cno";
 				pstmt = conn.prepareStatement(sql);
 				break;
 			case "Discount": // 할인 강좌 보기
 				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
-						+ "from bitclass where discount > 0 order by discount desc";
+						+ "from bitclass where discount > 0 order by discount desc, cno";
 				pstmt = conn.prepareStatement(sql);
 				break;
 			case "DeadLine": // 마감 임박 강좌 보기
 				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
-						+ "from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate)";
+						+ "from bitclass where ceil(startdate - sysdate) < 7 and 0 < ceil(startdate - sysdate) order by startdate, cno";
 				pstmt = conn.prepareStatement(sql);
 				break;
 			case "Local": // 선호 지역 강좌 보기
 				sql = "select cno, mno, title, cloc, startdate, enddate, fee, discount, rate, numpeople, enroll "
-						+ "from bitclass where cloc = ?";
+						+ "from bitclass where cloc = ? order by cno";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, member.getMloc());
 				break;
@@ -126,15 +123,15 @@ public class BitClassDAO {
 				pstmt.setInt(1, member.getMno());
 				break;
 			}
-			
+
 			// 결과 받아오기
 			rs = pstmt.executeQuery();
-			list = new ArrayList<>();
+			bitClasses = new ArrayList<>();
 
 			while (rs.next()) {
-				list.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
-						format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
-						rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
+				bitClasses.add(new BitClass(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4),
+						       format.format(rs.getDate(5)), format.format(rs.getDate(6)), rs.getInt(7), rs.getInt(8),
+						       rs.getFloat(9), rs.getInt(10), rs.getInt(11)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -155,7 +152,7 @@ public class BitClassDAO {
 				}
 			}
 		}
-		return list;
+		return bitClasses;
 	}
 
 	// 수강인원을 추가하는 메소드
@@ -190,35 +187,42 @@ public class BitClassDAO {
 		String sql = null;
 
 		sql = "update bitclass set enroll = ? where title=?";
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 1);
+		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "BitClass");
 
 		sql = "update classmember set mpoint = ? where mno=?"; // 수강생 요금 차감 후 갱신
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 2);
+		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Student");
 
 		sql = "update classmember set mpoint = (mpoint + ?) where mno = ?"; // 강사 요금 충전 후 갱신
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 3);
+		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Teacher");
 
 		sql = "insert into classorder values (classorder_orderno_seq.nextval, ?, ?, sysdate)";
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, 4);
+		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Order");
 	}
 
 	private void pstmtExecuteUpdate(Connection conn, BitClass bitClass, Member member, PreparedStatement pstmt,
-			String sql, int type) {
+			String sql, String type) {
 		try {
 			pstmt = conn.prepareStatement(sql);
-			if (type == 1) {
+
+			switch (type) {
+			case "BitClass": // BitClass의 수강인원을 갱신
 				pstmt.setInt(1, bitClass.getEnroll());
 				pstmt.setString(2, bitClass.getTitle());
-			} else if (type == 2) {
+				break;
+			case "Student": // 수강생의 포인트를 갱신
 				pstmt.setInt(1, member.getMpoint());
 				pstmt.setInt(2, member.getMno());
-			} else if (type == 3) {
+				break;
+			case "Teacher": // 강사의 포인트를 갱신
 				pstmt.setInt(1, bitClass.discountFee());
 				pstmt.setInt(2, bitClass.getMno());
-			} else {
+				break;
+			case "Order": // 주문테이블에 내용 추가
 				pstmt.setInt(1, member.getMno());
 				pstmt.setInt(2, bitClass.getCno());
+				break;
 			}
+
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

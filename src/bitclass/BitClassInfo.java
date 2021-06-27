@@ -49,7 +49,7 @@ public class BitClassInfo {
 				showClasses(member, "Discount");
 				break;
 			case 3:
-				showClasses(member, "Deadline");
+				showClasses(member, "DeadLine");
 				break;
 			case 4:
 				showClasses(member, "Local");
@@ -81,34 +81,27 @@ public class BitClassInfo {
 		for (int i = 0; i < BitClasses.size(); i++) {
 			BitClasses.get(i).printClass(i+1);
 		}
-		
-		System.out.println("------------------------------------------------------------------------------------");
-		System.out.println("0. 뒤로가기");
-		System.out.println("신청할 강좌의 번호를 입력해주세요");
-		int select = ir.readInteger();
-		
-		if (select == 0) {
-			return;
-		}
-		if((select) > BitClasses.size()) {
-			System.out.println("해당 번호에 맞는 강의가 없습니다.");
-			return;
-		}
-		if(member == null) {
-			System.out.println("신청을 위해 로그인을 해주세요.");
-			return;
-		}
-		
-		payment(BitClasses.get(select - 1), member);
-	}
-	
-	public void showMyClassInfo(Member member) {
-		bitClassManager = new BitClassManager(BitClassDAO.getInstance());
-		
-		ArrayList<BitClass> BitClasses = bitClassManager.getClassesByDAO(member, "MyEnrollClass");
 
-		for (int i = 0; i < BitClasses.size(); i++) {
-			System.out.println(i + 1 + ". " + BitClasses.get(i));
+		bitClassManager.printNavVar();
+		
+		if (!type.equals("MyEnrollClass")) {
+			System.out.println("0. 뒤로가기");
+			System.out.println("신청할 강좌의 번호를 입력해주세요");
+			int select = ir.readInteger();
+			
+			if (select == 0) {
+				return;
+			}
+			if((select) > BitClasses.size()) {
+				System.out.println("해당 번호에 맞는 강의가 없습니다.");
+				return;
+			}
+			if(member == null) {
+				System.out.println("신청을 위해 로그인을 해주세요.");
+				return;
+			}
+			
+			payment(BitClasses.get(select - 1), member);
 		}
 	}
 	
@@ -120,7 +113,7 @@ public class BitClassInfo {
 		int mPoint = point - fee; // 결제 후 남은 잔액
 
 		// 중복된 강좌 신청이 들어오면 메소드 종료
-		if (bitClassManager.checkDupClass(member, bitClass.getCno())) {
+		if (bitClassManager.checkDuplicateClass(member, bitClass.getCno())) {
 			return;
 		}
 		// 포인트가 부족한 경우 메소드 종료
