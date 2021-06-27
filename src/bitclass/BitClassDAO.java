@@ -20,13 +20,11 @@ public class BitClassDAO {
 
 	// 강좌 개설 기능
 	public int createClass(Connection conn, BitClass bitClass, int mno) { // 강좌 개설, 강사 번호 입력.
-		PreparedStatement pstmt = null;
 		int result = 0;
 
 		String sql = "insert into bitclass (cno, mno, title, cloc, startdate, enddate, fee, numpeople) values (bitclass_cno_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
 
-		try {
-			pstmt = conn.prepareStatement(sql);
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 
 			pstmt.setInt(1, mno);
 			pstmt.setString(2, bitClass.getTitle());
@@ -40,14 +38,6 @@ public class BitClassDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 		return result;
@@ -56,11 +46,9 @@ public class BitClassDAO {
 	// 강좌 할인 적용 기능
 	public int editClass(Connection conn, BitClass bitClass, int mno) {
 		int result = 0;
-		PreparedStatement pstmt = null;
+		String sql = "update bitclass set discount = ? where cno = ? and mno = ?";
 
-		try {
-			String sql = "update bitclass set discount = ? where cno = ? and mno = ?";
-			pstmt = conn.prepareStatement(sql);
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setInt(1, bitClass.getDiscount());
 			pstmt.setInt(2, bitClass.getCno());
 			pstmt.setInt(3, mno);
@@ -69,14 +57,6 @@ public class BitClassDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 		return result;
@@ -157,12 +137,9 @@ public class BitClassDAO {
 
 	// 수강인원을 추가하는 메소드
 	public void countMember(Connection conn, BitClass bitClass) {
+		String sql = "update bitclass set enroll = ? where title=?";
 
-		PreparedStatement pstmt = null;
-
-		try {
-			String sql = "update bitclass set enroll = ? where title=?";
-			pstmt = conn.prepareStatement(sql);
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setInt(1, bitClass.getEnroll());
 			pstmt.setString(2, bitClass.getTitle());
 
@@ -170,40 +147,28 @@ public class BitClassDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 
 	// 수강 신청 후 데이터베이스에 정보 입력
 	public void enrollClass(Connection conn, BitClass bitClass, Member member) {
-		PreparedStatement pstmt = null;
 		String sql = null;
 
 		sql = "update bitclass set enroll = ? where title=?";
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "BitClass");
+		pstmtExecuteUpdate(conn, bitClass, member, sql, "BitClass");
 
 		sql = "update classmember set mpoint = ? where mno=?"; // 수강생 요금 차감 후 갱신
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Student");
+		pstmtExecuteUpdate(conn, bitClass, member, sql, "Student");
 
 		sql = "update classmember set mpoint = (mpoint + ?) where mno = ?"; // 강사 요금 충전 후 갱신
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Teacher");
+		pstmtExecuteUpdate(conn, bitClass, member, sql, "Teacher");
 
 		sql = "insert into classorder values (classorder_orderno_seq.nextval, ?, ?, sysdate)";
-		pstmtExecuteUpdate(conn, bitClass, member, pstmt, sql, "Order");
+		pstmtExecuteUpdate(conn, bitClass, member, sql, "Order");
 	}
 
-	private void pstmtExecuteUpdate(Connection conn, BitClass bitClass, Member member, PreparedStatement pstmt,
-			String sql, String type) {
-		try {
-			pstmt = conn.prepareStatement(sql);
-
+	private void pstmtExecuteUpdate(Connection conn, BitClass bitClass, Member member, String sql, String type) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			switch (type) {
 			case "BitClass": // BitClass의 수강인원을 갱신
 				pstmt.setInt(1, bitClass.getEnroll());
@@ -222,18 +187,10 @@ public class BitClassDAO {
 				pstmt.setInt(2, bitClass.getCno());
 				break;
 			}
-
+			
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 	}
 }

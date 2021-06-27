@@ -14,7 +14,6 @@ public class BitClassManager {
 	private BitClassDAO dao;
 	private BitClass bitClass;
 	private InputReader ir;
-	Connection conn = null;
 	String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 	String user = "hr";
 	String pw = "tiger";
@@ -27,8 +26,7 @@ public class BitClassManager {
 	// 등록한 강좌 리스트
 	public void showCreateClass(Member member) {
 		List<BitClass> bitClasses = new ArrayList<>();
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 
 			printClassNav("MyCreateClass");
 			bitClasses = dao.getClasses(conn, member, "MyCreateClass");
@@ -73,8 +71,7 @@ public class BitClassManager {
 
 	// 강좌 개설
 	public void createClass(Member member) {
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 
 			System.out.println("새로운 강좌를 개설합니다.");
 			System.out.println("강좌 제목을 입력해주세요.");
@@ -127,8 +124,7 @@ public class BitClassManager {
 
 	// 수강료 할인
 	private void setDiscountFee(Member member, List<BitClass> bitClasses) {
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 
 			System.out.println("원하는 강좌의 수강료 할인을 시작합니다.");
 			System.out.println("강좌 번호를 입력해주세요.");
@@ -159,8 +155,7 @@ public class BitClassManager {
 	// 전체 강좌 정보 멤버 객체 생성
 	public ArrayList<BitClass> getClassesByDAO(Member member, String type) {
 		ArrayList<BitClass> bitClasses = null;
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 			
 			printClassNav(type);
 			bitClasses = dao.getClasses(conn, member, type);
@@ -200,8 +195,7 @@ public class BitClassManager {
 
 	// 수강 신청 데이터베이스 입력
 	public void enrollClass(BitClass bitClass, Member member) {
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 			dao.enrollClass(conn, bitClass, member);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -210,8 +204,7 @@ public class BitClassManager {
 
 	// 신청할때 중복으로 가능한지 비교
 	public boolean checkDuplicateClass(Member member, int cno) {
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 			List<BitClass> dupClass = dao.getClasses(conn, member, "MyEnrollClass");
 
 			for (int i = 0; i < dupClass.size(); i++) { // 내가 기존에 신청한 클래스인지 확인
@@ -237,8 +230,7 @@ public class BitClassManager {
 	
 	// 신청할때 중복으로 가능한지 비교
 	public boolean checkCreateDuplicateClass(Member member, String title) {
-		try {
-			conn = DriverManager.getConnection(jdbcUrl, user, pw);
+		try (Connection conn = DriverManager.getConnection(jdbcUrl, user, pw)) {
 			List<BitClass> dupClass = dao.getClasses(conn, member, "All");
 
 			for (int i = 0; i < dupClass.size(); i++) { // 이미 존재하는 강좌명인지 확인

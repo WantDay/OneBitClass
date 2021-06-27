@@ -20,13 +20,10 @@ public class MemberDAO {
 
 	// 1. 회원 가입 기능
 	public int createId(Connection conn, Member member) { // 회원 가입
-
-		PreparedStatement pstmt = null;
 		int result = 0;
 
 		String sql = "insert into classmember (mno, mid, mpw, mname, mphone, mloc) values (classmember_mno_seq.nextval, ?, ?, ?, ?, ?)";
-		try {
-			pstmt = conn.prepareStatement(sql);
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 
 			pstmt.setString(1, member.getMid());
 			pstmt.setString(2, member.getMpw());
@@ -38,14 +35,6 @@ public class MemberDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 
 		return result;
@@ -53,14 +42,10 @@ public class MemberDAO {
 
 	// 2. 회원 정보 수정
 	public int editInfo(Connection conn, Member member) {
-
 		int result = 0;
-
-		PreparedStatement pstmt = null;
-
-		try {
-			String sql = "update classmember set mpw=?, mloc =?, mphone =? where mid=?";
-			pstmt = conn.prepareStatement(sql);
+		
+		String sql = "update classmember set mpw=?, mloc =?, mphone =? where mid=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, member.getMpw());
 			pstmt.setString(2, member.getMloc());
 			pstmt.setString(3, member.getMphone());
@@ -70,14 +55,6 @@ public class MemberDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return result;
 	}
@@ -87,9 +64,9 @@ public class MemberDAO {
 		Member member = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String sql = "select * from classmember where mid = ?";
 
 		try {
-			String sql = "select * from classmember where mid = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 
@@ -125,25 +102,14 @@ public class MemberDAO {
 	public int deleteId(Connection conn, Member member) {
 		int result = 0;
 
-		PreparedStatement pstmt = null;
-
-		try {
-			String sql = "delete from classmember where mid = ? ";
-			pstmt = conn.prepareStatement(sql);
+		String sql = "delete from classmember where mid = ? ";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setString(1, member.getMid());
 
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return result;
 	}
@@ -152,11 +118,8 @@ public class MemberDAO {
 	public int editPoint(Connection conn, Member member) {
 		int result = 0;
 
-		PreparedStatement pstmt = null;
-
-		try {
-			String sql = "update classmember set mpoint=? where mid=?";
-			pstmt = conn.prepareStatement(sql);
+		String sql = "update classmember set mpoint=? where mid=?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)){
 			pstmt.setInt(1, member.getMpoint());
 			pstmt.setString(2, member.getMid());
 
@@ -164,14 +127,6 @@ public class MemberDAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return result;
 	}
