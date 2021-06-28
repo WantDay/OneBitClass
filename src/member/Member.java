@@ -4,6 +4,8 @@ import home.HomeScreen;
 import home.InputReader;
 
 public class Member {
+	private HomeScreen home;
+	
 	// 회원이 입력 데이터를 넣어서 가입 및 관리
 
 	private int mno; // 회원 번호
@@ -100,21 +102,33 @@ public class Member {
 
 	// 내 정보 보기
 	public void showMyInfo(MemberManager manager) {
+		home = HomeScreen.getInstance();
 		InputReader ir = new InputReader();
 
 		System.out.println();
-		System.out.println("ID : " + mid);
+		System.out.println("------------------");
+		System.out.println("I D : " + mid);
 		System.out.println("이름 : " + mname);
-		System.out.println("전화번호 : " + mphone);
-		System.out.println("관심 지역 : " + mloc);
+		
+		if (mphone == null) {
+			System.out.println("전화번호 : 등록된 전화번호가 없습니다.");
+		} else {
+			System.out.println("전화번호 : " + mphone);
+		}
+		
+		if (mloc == null) {
+			System.out.println("관심지역 : 등록된 관심지역이 없습니다.");
+		} else {
+			System.out.println("관심지역 : " + mloc);
+		}
+		
 		System.out.println("포인트 : " + mpoint);
-		System.out.println("------------------------");
-
+		System.out.println("------------------");
 		System.out.println("1. 정보 수정");
 		System.out.println("2. 포인트 관리");
 		System.out.println("3. 회원 탈퇴");
 		System.out.println("0. 홈으로 가기");
-
+		System.out.println("------------------");
 		System.out.print("번호 입력 : ");
 
 		int select = ir.readInteger();
@@ -127,7 +141,7 @@ public class Member {
 			manageMyPoint(manager);
 			break;
 		case 3:
-			HomeScreen.isLogin = deleteMyId(manager);;
+			home.setLogin(deleteMyId(manager));
 			break;
 		case 0:
 			break;
@@ -150,10 +164,12 @@ public class Member {
 	// 포인트 관리
 	private void manageMyPoint(MemberManager manager) {
 		// 포인트 충전, 인출, 정산 선택
-
+		System.out.println("------------------");
 		System.out.println("1. 포인트 충전");
 		System.out.println("2. 포인트 인출");
 		System.out.println("0. 뒤로 가기 ");
+		System.out.println("------------------");
+		System.out.print("번호 입력 : ");
 		
 		InputReader ir = new InputReader();
 		int select = ir.readInteger();
@@ -193,7 +209,7 @@ public class Member {
 		if (charge > 0) {
 			this.mpoint += charge;
 
-			manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
+			manager.editPoint(mpoint, this); // 데이터베이스 최신화된 금액 입력
 
 			System.out.println("충전 완료!");
 			System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
@@ -210,7 +226,7 @@ public class Member {
 		int withdrawal = ir.readInteger();
 		if (withdrawal >= 100 && withdrawal <= mpoint) {
 			this.mpoint -= withdrawal;
-			manager.editPoint(mpoint); // 데이터베이스 최신화된 금액 입력
+			manager.editPoint(mpoint, this); // 데이터베이스 최신화된 금액 입력
 
 			System.out.println("인출 완료!");
 			System.out.println("현재 보유중인 포인트는 " + mpoint + " 입니다.");
@@ -233,11 +249,4 @@ public class Member {
 		System.out.println("입금된 포인트 : " + earnedPoint);
 		System.out.println("사용한 포인트 : " + usedPoint);
 	}
-
-	@Override
-	public String toString() {
-		return "ClassMember [mno=" + mno + ", mid=" + mid + ", mpw=" + mpw + ", mname=" + mname + ", mphone=" + mphone
-				+ ", mloc=" + mloc + ", mpoint=" + mpoint + "]";
-	}
-
 }

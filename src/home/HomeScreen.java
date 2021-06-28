@@ -8,23 +8,32 @@ import member.MemberDAO;
 import member.MemberManager;
 
 public class HomeScreen {
-	static BitClassInfo classInfo = new BitClassInfo();
-	static public boolean isLogin = false;
-	static String mid;
-	static MemberManager manager;
+	private BitClassInfo classInfo;
+	private BitClassManager classManager;
+	private Member member;
+	private MemberManager manager;
+	private String mid;
+	private boolean isLogin = false;
+
+	// 싱글톤 패턴으로 구성
+	static private HomeScreen home = new HomeScreen();
+	public static HomeScreen getInstance() {
+		return home;
+	}
 
 	public static void main(String[] args) {
 		while (true) {
-			if (isLogin) {
-				memHome();
+			if (home.isLogin) {
+				home.memHome();
 			} else {
-				nonMemHome();
+				home.nonMemHome();
 			}
 		}
 	}
 
-	static void nonMemHome() {
+	private void nonMemHome() {
 		manager = new MemberManager(MemberDAO.getInstance());
+		classInfo = new BitClassInfo();
 		Login login = new Login();
 		InputReader ir = new InputReader();
 
@@ -66,10 +75,11 @@ public class HomeScreen {
 		}
 	}
 
-	static void memHome() {
+	private void memHome() {
+		classManager = new BitClassManager(BitClassDAO.getInstance());
+		classInfo = new BitClassInfo();
 		manager = new MemberManager(MemberDAO.getInstance());
-		Member member = manager.loginInfo(mid);
-		BitClassManager classManager = new BitClassManager(BitClassDAO.getInstance());
+		member = manager.loginInfo(mid);
 		InputReader ir = new InputReader();
 
 		System.out.println();
@@ -95,10 +105,10 @@ public class HomeScreen {
 				member.showMyInfo(manager);
 				break;
 			case 3:
-				classManager.showMyClassInfo(member);
+				classInfo.showClasses(member, "MyEnrollClass");
 				break;
 			case 4:
-				classManager.showClass(member);
+				classManager.showCreateClass(member);
 				break;
 			case 9:
 				isLogin = false;
@@ -113,5 +123,9 @@ public class HomeScreen {
 		} catch (NumberFormatException e) {
 			System.out.println("메뉴는 숫자로 입력해주세요.");
 		}
+	}
+
+	public void setLogin(boolean isLogin) {
+		this.isLogin = isLogin;
 	}
 }
