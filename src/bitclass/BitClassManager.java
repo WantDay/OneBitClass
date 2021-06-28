@@ -182,7 +182,7 @@ public class BitClassManager {
 			System.out.println("\n주변 지역 강좌");
 			break;
 		case "MyEnrollClass": // 내가 수강 신청한 강좌 보기
-			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
+			System.out.println("내가 신청한 강좌 정보를 출력합니다.");
 			break;
 		case "MyCreateClass": // 내가 생성한 강좌 보기
 			System.out.println("내가 개설한 강좌 정보를 출력합니다.");
